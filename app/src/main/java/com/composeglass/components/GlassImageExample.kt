@@ -15,6 +15,6 @@ fun GlassImageExample(painter: Painter) {
         contentDescription = "Imagen con blur",
         modifier = Modifier
             .size(200.dp)
-            .blurGlass(blurRadius = 20)
+            .blurGlass(blurRadius = 5)
     )
 }

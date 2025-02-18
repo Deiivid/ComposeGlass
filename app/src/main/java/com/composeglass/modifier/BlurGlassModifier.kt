@@ -15,11 +15,9 @@ fun Modifier.blurGlass(
     blurColor: Color = Color.White.copy(alpha = 0.2f)
 ): Modifier {
     if (!enabled) return this
-
-    val safeBlurRadius = blurRadius.coerceIn(0, 10) //Restricted to 10
-
+    val adjustedBlurRadius = (blurRadius * 0.6).coerceIn(0.0, 25.0)
     return this
         .graphicsLayer { alpha = 0.98f }
         .background(blurColor)
-        .blur(safeBlurRadius.dp)
+        .blur(adjustedBlurRadius.dp)
 }
