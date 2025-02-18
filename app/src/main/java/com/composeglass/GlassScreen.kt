@@ -3,10 +3,8 @@ package com.composeglass
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,7 +37,7 @@ fun GlassScreen() {
                Spacer(modifier = Modifier.height(16.dp))
                GlassButtonExample()
                Spacer(modifier = Modifier.height(16.dp))
-               GlassImageExample(painterResource(id = android.R.drawable.ic_menu_gallery))
+               GlassImageExample(painterResource(id = R.drawable.blur_test_image))
                Spacer(modifier = Modifier.height(16.dp))
                GlassListExample(listOf("Elemento 1", "Elemento 2", "Elemento 3"))
         }

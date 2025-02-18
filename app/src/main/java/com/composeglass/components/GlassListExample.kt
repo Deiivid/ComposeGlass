@@ -16,7 +16,7 @@ fun GlassListExample(items: List<String>) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .blurGlass(blurRadius = 20, blurColor = Color.Gray.copy(alpha = 0.2f))
+            .blurGlass(blurRadius = 4, blurColor = Color.Gray.copy(alpha = 0.2f))
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(items) { item ->
