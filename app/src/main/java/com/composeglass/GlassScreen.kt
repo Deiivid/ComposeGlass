@@ -1,34 +1,24 @@
 package com.composeglass
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.composeglass.components.GlassButtonExample
-import com.composeglass.components.GlassCardExample
-import com.composeglass.components.GlassImageExample
-import com.composeglass.components.GlassListExample
+import com.composeglass.components.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GlassScreen() {
+    var showDialog by remember { mutableStateOf(false) }
+    val glassItems = listOf("Elemento 1", "Elemento 2", "Elemento 3")
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -39,7 +29,6 @@ fun GlassScreen() {
                         textAlign = TextAlign.Center
                     )
                 },
-                modifier = Modifier.fillMaxWidth(),
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 )
@@ -49,21 +38,32 @@ fun GlassScreen() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
-            contentAlignment = Alignment.Center
+                .padding(padding)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.9f)
+                    .verticalScroll(rememberScrollState())
             ) {
                 GlassCardExample()
-                Spacer(modifier = Modifier.height(16.dp))
                 GlassButtonExample()
-                Spacer(modifier = Modifier.height(16.dp))
                 GlassImageExample(painterResource(id = R.drawable.blur_test_image))
-                Spacer(modifier = Modifier.height(16.dp))
-                GlassListExample(listOf("Elemento 1", "Elemento 2", "Elemento 3"))
+                Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
+                    GlassListExample(glassItems)
+                }
+                GlassFloatingActionButton(onClick = { showDialog = true }) { Text("FAB") }
+                GlassDialogExample(showDialog = showDialog, onDismiss = { showDialog = false }) {
+                    Text("This is a Glass Dialog")
+                }
+                GlassTopAppBarExample(title = "Custom Title")
+                Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
+                    GlassListWithHeaderExample(glassItems)
+                }
+
+                GlassBlurContainerExample()
             }
         }
     }
