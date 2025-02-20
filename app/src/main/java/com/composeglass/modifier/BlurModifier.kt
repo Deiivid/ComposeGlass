@@ -19,25 +19,7 @@ import androidx.compose.ui.unit.dp
  */
 fun Modifier.backgroundBlur(
     blurRadius: Int = 10,
-    blurColor: Color? = null
 ): Modifier {
     val adjustedBlurRadius = (blurRadius * 0.6).coerceIn(0.0, 25.0).dp
-
-    return when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            this.blur(adjustedBlurRadius)
-        }
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
-            // Android 10-11: Apply blur
-            this.blur(adjustedBlurRadius)
-        }
-        else -> {
-            // Android 9 and below: Apply only background color
-            if (blurColor != null) {
-                this.background(blurColor)
-            } else {
-                this // No blur applied, returns the original Modifier
-            }
-        }
-    }
+    this.blur(adjustedBlurRadius)
 }
