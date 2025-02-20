@@ -14,15 +14,6 @@ import androidx.compose.ui.unit.dp
 
 enum class ThemeMode { AUTO, DARK, LIGHT }
 
-/**
- * Applies only a background blur effect without affecting opacity.
- *
- * @param blurRadius The intensity of the blur effect (default 10).
- */
-fun Modifier.backgroundBlur(blurRadius: Int = 10): Modifier {
-    val adjustedBlurRadius = (blurRadius * 0.6).coerceIn(0.0, 25.0)
-    return this.blur(adjustedBlurRadius.dp)
-}
 
 /**
  * Applies a glassmorphism effect with blur, opacity, optional border, and shadow.
