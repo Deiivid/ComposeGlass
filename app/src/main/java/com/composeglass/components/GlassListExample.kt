@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.blurGlass
+import com.composeglass.modifier.glassEffect
 import kotlinx.coroutines.delay
 
 @Composable
@@ -47,7 +47,7 @@ fun GlassListExample(items: List<String>) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .blurGlass(
+            .glassEffect(
                 blurRadius = animatedBlurRadius.toInt(),
                 blurOpacity = animatedOpacity
             ),
