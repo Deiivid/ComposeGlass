@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.blurGlass
+import com.composeglass.modifier.glassEffect
 
 @Composable
 fun GlassListWithHeaderExample(items: List<String>) {
@@ -24,7 +24,7 @@ fun GlassListWithHeaderExample(items: List<String>) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .blurGlass(blurRadius = 20, blurOpacity = 0.6f, blurColor = Color.White),
+                .glassEffect(blurRadius = 20, blurOpacity = 0.6f, blurColor = Color.White),
             contentAlignment = Alignment.Center
         ) {
             Text("Glass Header", textAlign = TextAlign.Center)

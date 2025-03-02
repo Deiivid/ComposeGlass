@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.composeglass.modifier.blurGlass
+import com.composeglass.modifier.glassEffect
 
 @Composable
 fun GlassDialogExample(
@@ -21,7 +21,7 @@ fun GlassDialogExample(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .blurGlass(blurRadius = 20, blurOpacity = 0.5f, blurColor = Color.Black)
+                .glassEffect(blurRadius = 20, blurOpacity = 0.5f, blurColor = Color.Black)
                 .background(Color.Black.copy(alpha = 0.3f)),
             contentAlignment = Alignment.Center
         ) {
