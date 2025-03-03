@@ -1,10 +1,7 @@
 package com.composeglass.modifier
 
-import android.os.Build
-import androidx.compose.foundation.background
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 /**
@@ -15,7 +12,6 @@ import androidx.compose.ui.unit.dp
  * - **Older versions (API < 29)** → Uses only background color (no blur)
  *
  * @param blurRadius The intensity of the blur effect (default 10).
- * @param blurColor Optional background color for older devices.
  */
 fun Modifier.backgroundBlur(
     blurRadius: Int = 10,

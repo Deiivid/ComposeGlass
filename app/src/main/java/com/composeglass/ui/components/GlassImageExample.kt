@@ -1,4 +1,4 @@
-package com.composeglass.components
+package com.composeglass.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size

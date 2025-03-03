@@ -1,4 +1,4 @@
-package com.composeglass
+package com.composeglass.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
