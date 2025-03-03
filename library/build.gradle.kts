@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.composeglass"
+    namespace = "com.composeglass.library"
     compileSdk = 35
 
     defaultConfig {
