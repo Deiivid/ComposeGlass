@@ -21,5 +21,5 @@ fun Modifier.backgroundBlur(
     blurRadius: Int = 10,
 ): Modifier {
     val adjustedBlurRadius = (blurRadius * 0.6).coerceIn(0.0, 25.0).dp
-    this.blur(adjustedBlurRadius)
+    return this.blur(adjustedBlurRadius)
 }
