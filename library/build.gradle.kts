@@ -39,14 +39,15 @@ android {
         compose = true
     }
 }
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            groupId = "com.github.Deiivid"
+            artifactId = "ComposeGlass"
+            version = "v1.0.0"
+
+            afterEvaluate {
                 from(components["release"])
-                groupId = "com.github.Deiivid"
-                artifactId = "ComposeGlass"
-                version = "1.0.0"
             }
         }
     }
