@@ -7,10 +7,6 @@ import androidx.compose.ui.unit.dp
 /**
  * Applies a background blur effect based on the Android version.
  *
- * - **Android 12+ (API 31+)** → Uses `Modifier.blur()`
- * - **Android 10-11 (API 29-30)** → Uses `Modifier.blur()` (fallback)
- * - **Older versions (API < 29)** → Uses only background color (no blur)
- *
  * @param blurRadius The intensity of the blur effect (default 10).
  */
 fun Modifier.backgroundBlur(
