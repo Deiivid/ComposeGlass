@@ -32,6 +32,17 @@ android {
     }
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            from(components["release"])
+            groupId = "com.github.Deiivid"
+            artifactId = "ComposeGlass"
+            version = "1.0.0"
+        }
+    }
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
