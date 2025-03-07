@@ -61,10 +61,18 @@ fun Modifier.glassEffect(
     val adjustedBlurRadius = (blurRadius * 0.6).coerceIn(0.0, 25.0)
     val adjustedOpacity = dynamicBlurOpacity.coerceIn(0f, 1f)
 
+    )
+
     return this
         .graphicsLayer { alpha = 0.98f }
         .background(dynamicBlurColor.copy(alpha = adjustedOpacity))
-        .blur(adjustedBlurRadius.dp)
+        .then(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                Modifier.blur(adjustedBlurRadius.dp) // Solo en Android 12+
+            } else {
+                Modifier.background(dynamicBlurColor.copy(alpha = adjustedOpacity * 0.5f)) // Simulación en Android <12
+            }
+        )
         .border(borderWidth, borderColor)
-        .then(if (shadow) Modifier.shadow(shadowElevation) else Modifier)
+        .then(if (shadow) Modifier.shadow(shadowElevation) else
 }
