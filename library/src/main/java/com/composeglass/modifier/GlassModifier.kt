@@ -68,7 +68,7 @@ fun Modifier.glassEffect(
         .background(dynamicBlurColor.copy(alpha = adjustedOpacity))
         .then(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                Modifier.blur(adjustedBlurRadius.dp) // Solo en Android 12+
+                Modifier.blur(adjustedBlurRadius.dp)
             } else {
                 Modifier.background(dynamicBlurColor.copy(alpha = adjustedOpacity * 0.5f))
             }
