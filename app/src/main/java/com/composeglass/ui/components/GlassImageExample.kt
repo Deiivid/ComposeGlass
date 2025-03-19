@@ -7,27 +7,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.composeglass.modifier.ThemeMode
-import com.composeglass.modifier.backgroundBlur
 import com.composeglass.modifier.glassEffect
 
 @Composable
-fun GlassImageExample(painter: Painter, useGlassEffect: Boolean = true) {
+fun GlassImageExample(painter: Painter) {
     Image(
         painter = painter,
         contentDescription = "Blurred Image",
         modifier = Modifier
             .size(200.dp)
-            .let {
-                if (useGlassEffect) {
-                    it.glassEffect(
-                        blurRadius = 10,
-                        blurOpacity = 0.3f,
-                        useThemeColors = true,
-                        themeMode = ThemeMode.AUTO
-                    )
-                } else {
-                    it.backgroundBlur(1)
-                }
-            }
+            .glassEffect(
+                blurRadius = 10,
+                blurOpacity = 0.3f,
+                useThemeColors = true,
+                themeMode = ThemeMode.AUTO
+            )
     )
 }
