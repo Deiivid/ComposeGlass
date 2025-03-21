@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.composeglass.modifier.BlurContainer
 import com.composeglass.modifier.ThemeMode
@@ -36,9 +37,10 @@ fun GlassBlurContainerExample() {
 
         BlurContainer(
             blurRadius = 20,
-            blurOpacity = 0.5f,
-            useThemeColors = true,
-            themeMode = themeMode
+            blurOpacity = 0.2f,
+            blurColor = Color.Gray,
+            borderColor = Color.Gray,
+            borderWidth = 2f
         ) {
             Box(
                 modifier = Modifier

@@ -58,7 +58,7 @@ fun GlassScreen() {
             ) {
                 GlassCardExample()
                 GlassButtonExample()
-                GlassImageExample(painterResource(id = com.composeglass.R.drawable.blur_test_image),false)
+                GlassImageExample(painterResource(id = com.composeglass.R.drawable.blur_test_image))
                 Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
                     GlassListExample(glassItems)
                 }

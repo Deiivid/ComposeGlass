@@ -9,11 +9,18 @@ android {
     namespace = "com.composeglass.library"
     compileSdk = 35
 
-
     defaultConfig {
         minSdk = 28
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        // 1) Ajustes para compilar código nativo
+        externalNativeBuild {
+            cmake {
+                // Si quieres pasar flags de C++17, por ejemplo:
+                cppFlags += listOf("-std=c++17")
+            }
+        }
     }
 
     buildTypes {
@@ -35,10 +42,18 @@ android {
         jvmTarget = "17"
     }
 
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
+    }
     buildFeatures {
         compose = true
     }
+
+
 }
+
 publishing {
     publications {
         create<MavenPublication>("release") {
@@ -62,6 +77,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
