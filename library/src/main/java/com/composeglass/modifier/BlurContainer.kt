@@ -59,8 +59,7 @@ fun BlurContainer(
         // APIS < 31 => usar tu KotlinBlur como fallback
         modifier
             .fillMaxSize()
-            .glassBlur(blurRadius)
-            .then(
+            .glassEffect(blurRadius = 20, blurOpacity = 0.5f, blurColor = Color.Black)            .then(
                 if (borderWidth > 0f) Modifier.border(borderWidth.dp, borderColor) else Modifier
             )
     }
