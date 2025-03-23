@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.composeglass.modifier.glassEffect
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,6 +24,6 @@ fun GlassTopAppBarExample(title: String) {
         },
         modifier = Modifier
             .fillMaxWidth()
-            .glassEffect(blurRadius = 20, blurOpacity = 0.5f, blurColor = Color.White)
+            .glassEffect(blurRadius = 20.dp, blurOpacity = 0.5f, blurColor = Color.White)
     )
 }

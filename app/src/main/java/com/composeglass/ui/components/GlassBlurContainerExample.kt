@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.composeglass.modifier.BlurContainer
 import com.composeglass.modifier.ThemeMode
+import com.composeglass.modifier.glassEffect
 
 @Composable
 fun GlassBlurContainerExample() {
@@ -35,22 +36,16 @@ fun GlassBlurContainerExample() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        BlurContainer(
-            blurRadius = 20,
-            blurOpacity = 0.2f,
-            blurColor = Color.Gray,
-            borderColor = Color.Gray,
-            borderWidth = 2f
-        ) {
             Box(
                 modifier = Modifier
                     .size(200.dp)
-                    .padding(16.dp),
+                    .padding(16.dp)
+                    .glassEffect(true,19.dp,0.15f),
                 contentAlignment = Alignment.Center
             ) {
                 Text(text = "Glassmorphism Applied")
             }
-        }
+
 
         Spacer(modifier = Modifier.height(24.dp))
 

@@ -14,7 +14,7 @@ fun GlassCardExample() {
     Card(
         modifier = Modifier
             .padding(16.dp)
-            .glassEffect(blurRadius = 7, blurOpacity = 0.2f, blurColor = Color.White)
+            .glassEffect(blurRadius = 7.dp, blurOpacity = 0.2f, blurColor = Color.White)
     ) {
         Text(text = "This is a Glass Card", modifier = Modifier.padding(16.dp))
     }

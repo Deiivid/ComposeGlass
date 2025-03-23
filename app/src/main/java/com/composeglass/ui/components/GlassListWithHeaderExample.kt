@@ -24,7 +24,7 @@ fun GlassListWithHeaderExample(items: List<String>) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .glassEffect(blurRadius = 20, blurOpacity = 0.6f, blurColor = Color.White),
+                .glassEffect(blurRadius = 20.dp, blurOpacity = 0.6f, blurColor = Color.White),
             contentAlignment = Alignment.Center
         ) {
             Text("Glass Header", textAlign = TextAlign.Center)

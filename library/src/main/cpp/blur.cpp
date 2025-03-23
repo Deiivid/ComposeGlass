@@ -1,18 +1,14 @@
 #include <jni.h>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 
-// Función auxiliar para no salirnos de [0, maxVal]
+// Clamp para mantener los índices dentro del rango válido
 static inline int clampIndex(int x, int maxVal) {
-    if (x < 0) return 0;
-    if (x > maxVal) return maxVal;
-    return x;
+    return std::max(0, std::min(x, maxVal));
 }
 
-/**
- * Genera un kernel gaussiano 1D de tamaño (2*radius + 1).
- * sigma ~ radius/3, aunque puedes ajustar ese factor.
- */
+// Genera un kernel gaussiano 1D
 static std::vector<float> createGaussianKernel(int radius, float sigma) {
     std::vector<float> kernel(2 * radius + 1);
     float sum = 0.0f;
@@ -22,91 +18,46 @@ static std::vector<float> createGaussianKernel(int radius, float sigma) {
         kernel[i + radius] = val;
         sum += val;
     }
-    // Normalizar
-    for (int i = 0; i < kernel.size(); i++) {
-        kernel[i] /= sum;
-    }
+    for (float &value : kernel) value /= sum;
     return kernel;
 }
 
-/**
- * Aplica convolución 1D (kernel) en sentido horizontal.
- *  - px: vector con píxeles ARGB
- *  - out: vector salida
- *  - width, height: dimensiones
- *  - kernel: kernel gaussiano (de longitud 2*radius+1)
- *  - radius: radio de desenfoque
- */
-static void convolveHorizontal(
-        const std::vector<int>& px,
-        std::vector<int>& out,
+// Aplica convolución 1D a una dirección
+static void applyConvolution1D(
+        const std::vector<int>& src,
+        std::vector<int>& dst,
         int width,
         int height,
         const std::vector<float>& kernel,
-        int radius
+        bool horizontal
 ) {
-    int wm = width - 1;
-    for (int y = 0; y < height; y++) {
-        int offset = y * width;
-        for (int x = 0; x < width; x++) {
-            float rSum = 0, gSum = 0, bSum = 0;
-            // Aplicamos kernel en el vecindario [x - radius, x + radius]
-            for (int k = -radius; k <= radius; k++) {
-                int nx = clampIndex(x + k, wm);
-                int c = px[offset + nx];
-                float w = kernel[k + radius];
-                rSum += ((c >> 16) & 0xFF) * w;
-                gSum += ((c >> 8) & 0xFF) * w;
-                bSum += (c & 0xFF) * w;
+    int radius = static_cast<int>(kernel.size()) / 2;
+
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            float r = 0, g = 0, b = 0, a = 0;
+            for (int k = -radius; k <= radius; ++k) {
+                int sampleX = horizontal ? clampIndex(x + k, width - 1) : x;
+                int sampleY = horizontal ? y : clampIndex(y + k, height - 1);
+                int pixel = src[sampleY * width + sampleX];
+
+                float coeff = kernel[k + radius];
+                a += ((pixel >> 24) & 0xFF) * coeff;
+                r += ((pixel >> 16) & 0xFF) * coeff;
+                g += ((pixel >> 8) & 0xFF) * coeff;
+                b += (pixel & 0xFF) * coeff;
             }
-            int r = static_cast<int>(rSum + 0.5f);
-            int g = static_cast<int>(gSum + 0.5f);
-            int b = static_cast<int>(bSum + 0.5f);
-            out[offset + x] = (0xFF << 24) | (r << 16) | (g << 8) | b;
+
+            int finalA = std::clamp(static_cast<int>(a), 0, 255);
+            int finalR = std::clamp(static_cast<int>(r), 0, 255);
+            int finalG = std::clamp(static_cast<int>(g), 0, 255);
+            int finalB = std::clamp(static_cast<int>(b), 0, 255);
+
+            dst[y * width + x] = (finalA << 24) | (finalR << 16) | (finalG << 8) | finalB;
         }
     }
 }
 
-/**
- * Aplica convolución 1D (kernel) en sentido vertical.
- */
-static void convolveVertical(
-        const std::vector<int>& px,
-        std::vector<int>& out,
-        int width,
-        int height,
-        const std::vector<float>& kernel,
-        int radius
-) {
-    int hm = height - 1;
-    for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-            float rSum = 0, gSum = 0, bSum = 0;
-            int offset = y * width + x;
-            // Vecindario [y - radius, y + radius]
-            for (int k = -radius; k <= radius; k++) {
-                int ny = clampIndex(y + k, hm);
-                int c = px[ny * width + x];
-                float w = kernel[k + radius];
-                rSum += ((c >> 16) & 0xFF) * w;
-                gSum += ((c >> 8) & 0xFF) * w;
-                bSum += (c & 0xFF) * w;
-            }
-            int r = static_cast<int>(rSum + 0.5f);
-            int g = static_cast<int>(gSum + 0.5f);
-            int b = static_cast<int>(bSum + 0.5f);
-            out[offset] = (0xFF << 24) | (r << 16) | (g << 8) | b;
-        }
-    }
-}
-
-/**
- * Implementación nativa de un desenfoque gaussiano 2D (horizontal + vertical).
- * Firma JNI: Java_com_composeglass_modifier_oldVersionBlur_BlurNative_gaussianBlur
- *    => package = com.composeglass.modifier.oldVersionBlur
- *    => clase   = BlurNative
- *    => función = gaussianBlur
- */
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_composeglass_modifier_oldVersionBlur_BlurNative_gaussianBlur(
@@ -117,34 +68,27 @@ Java_com_composeglass_modifier_oldVersionBlur_BlurNative_gaussianBlur(
         jint height,
         jint radius
 ) {
-    if (radius < 1 || width < 1 || height < 1) {
-        return; // Nada que blurear
-    }
+    if (radius < 1 || width < 1 || height < 1) return;
 
-    // Obtenemos el puntero a los píxeles Java
     jint* pixels = env->GetIntArrayElements(pixels_, nullptr);
     if (!pixels) return;
 
-    // Copiamos a std::vector para manipularlos fácilmente
     std::vector<int> src(pixels, pixels + (width * height));
     std::vector<int> temp(width * height);
     std::vector<int> dst(width * height);
 
-    // Por convención, tomamos sigma ~ radius/3.0 (ajústalo según tu gusto)
     float sigma = radius / 3.0f;
-    // Generamos kernel gaussiano 1D
     auto kernel = createGaussianKernel(radius, sigma);
 
-    // 1) Convolución horizontal
-    convolveHorizontal(src, temp, width, height, kernel, radius);
-    // 2) Convolución vertical
-    convolveVertical(temp, dst, width, height, kernel, radius);
+    // Convolución horizontal
+    applyConvolution1D(src, temp, width, height, kernel, true);
+    // Convolución vertical
+    applyConvolution1D(temp, dst, width, height, kernel, false);
 
-    // Pasamos el resultado al array Java
+    // Copia el resultado de vuelta a Java
     for (int i = 0; i < width * height; i++) {
         pixels[i] = dst[i];
     }
 
-    // Liberamos array en la JVM
     env->ReleaseIntArrayElements(pixels_, pixels, 0);
 }
