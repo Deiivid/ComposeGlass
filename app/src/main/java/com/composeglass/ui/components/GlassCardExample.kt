@@ -5,16 +5,15 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.glassEffect
+import com.composeglass.modifier.glassBlur
 
 @Composable
 fun GlassCardExample() {
     Card(
         modifier = Modifier
             .padding(16.dp)
-            .glassEffect(blurRadius = 7.dp, blurOpacity = 0.2f, blurColor = Color.White)
+            .glassBlur(radius = 20)
     ) {
         Text(text = "This is a Glass Card", modifier = Modifier.padding(16.dp))
     }

@@ -1,5 +1,6 @@
 package com.composeglass.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,16 +29,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.glassEffect
-import com.composeglass.ui.components.GlassBlurContainerExample
-import com.composeglass.ui.components.GlassButtonExample
-import com.composeglass.ui.components.GlassImageExample
+import com.composeglass.modifier.glassBlur
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,6 +72,16 @@ fun GlassScreen() {
                     .fillMaxHeight(0.9f)
                     .verticalScroll(rememberScrollState())
             ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .glassBlur(radius = 20)
+
+                ){
+                    Text("Glassmorphism 1")
+
+                }
+
                 GlassCard(
                     modifier = Modifier
                         .padding(16.dp)
@@ -84,15 +92,22 @@ fun GlassScreen() {
                 }
                 Box(
                     modifier = Modifier
-                        .glassEffect()
-                        .padding(16.dp)
+                        .fillMaxSize()
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(Color.Red, Color.Green, Color.Blue)
+                            )
+                        )
                 ) {
-                    Text("prueba")
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .glassBlur(radius = 20)
+                    ) {
+                        Text("Glassmorphism Applied")
+
+                    }
                 }
-                Text("prueba", modifier = Modifier.glassEffect(true,15.dp,0.15f))
-                GlassButtonExample()
-                GlassImageExample(painterResource(id = com.composeglass.R.drawable.blur_test_image))
-                GlassBlurContainerExample()
             }
         }
     }
@@ -110,7 +125,7 @@ fun GlassCard(
 ) {
     Box(
         modifier = modifier
-            .glassEffect(true, blurRadius, blurOpacity, blurColor)
+            .glassBlur(radius = 20)
             .clip(RoundedCornerShape(cornerRadius))
             .border(1.dp, blurColor.copy(alpha = 0.1f), RoundedCornerShape(cornerRadius))
             .shadow(4.dp, RoundedCornerShape(cornerRadius)),

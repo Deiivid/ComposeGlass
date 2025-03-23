@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.glassEffect
+import com.composeglass.modifier.glassBlur
 import kotlinx.coroutines.delay
 
 @Composable
@@ -55,11 +55,9 @@ fun GlassListExample(items: List<String>) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .glassEffect(
-                blurRadius = animatedBlurRadius.dp,
-                blurOpacity = animatedOpacity
-            ),
-        contentAlignment = Alignment.Center
+            .glassBlur(radius = 20),
+
+                contentAlignment = Alignment.Center
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

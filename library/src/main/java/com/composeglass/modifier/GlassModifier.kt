@@ -9,90 +9,88 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.view.PixelCopy
-import androidx.annotation.RequiresApi
+import android.view.Window
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.oldVersionBlur.RenderScriptToolkit
-enum class ThemeMode { AUTO, DARK, LIGHT }
+import androidx.compose.ui.unit.IntSize
+import androidx.core.view.drawToBitmap
+import com.composeglass.modifier.oldVersionBlur.BlurUtils
+import kotlinx.coroutines.delay
 
-fun Modifier.glassEffect(
-    enabled: Boolean = true,
-    blurRadius: Dp = 20.dp,
-    blurOpacity: Float = 0.5f,
-    blurColor: Color = Color.White
-): Modifier = composed {
-    if (!enabled) return@composed this
-
+fun Modifier.glassBlur(radius: Int): Modifier = composed {
     val context = LocalContext.current
     val view = LocalView.current
-    val density = LocalDensity.current
-    val blurPx = with(density) { blurRadius.toPx() }
+    var blurredImage by remember { mutableStateOf<Bitmap?>(null) }
+    var targetRect by remember { mutableStateOf<Rect?>(null) }
+    var targetSize by remember { mutableStateOf(IntSize.Zero) }
 
-    var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
-    var lastRect by remember { mutableStateOf<Rect?>(null) }
-    val window = context.findActivity()?.window
+    val window: Window? = (context as? ContextWrapper)?.findActivity()?.window
 
-    this
-        .onGloballyPositioned { coordinates ->
-            if (window == null) return@onGloballyPositioned
-            val pos = coordinates.positionInWindow()
-            val size = coordinates.size
-            if (size.width <= 0 || size.height <= 0) return@onGloballyPositioned
+    // 👇 Aquí es donde diferimos el PixelCopy
+    LaunchedEffect(targetRect) {
+        targetRect?.let { rect ->
+            delay(100) // esperamos un frame aprox
+            val dest = Bitmap.createBitmap(rect.width(), rect.height(), Bitmap.Config.ARGB_8888)
 
-            val rect = Rect(pos.x.toInt(), pos.y.toInt(), pos.x.toInt() + size.width, pos.y.toInt() + size.height)
-            if (rect == lastRect) return@onGloballyPositioned
-            lastRect = rect
-
-            val dest = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)
-            PixelCopy.request(window, rect, dest, { result ->
-                if (result == PixelCopy.SUCCESS) {
-                    imageBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        dest.asImageBitmap()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && window != null) {
+                PixelCopy.request(window, rect, dest, { result ->
+                    if (result == PixelCopy.SUCCESS) {
+                        println("✅ PixelCopy capturado correctamente")
+                        BlurUtils.nativeBlurBitmap(dest, radius)
+                        println("✅ Blur aplicado correctamente")
+                        blurredImage = dest
                     } else {
-                        val output = Bitmap.createBitmap(dest.width, dest.height, Bitmap.Config.ARGB_8888)
-                        RenderScriptToolkit.blur(dest, output, blurPx.toInt())
-                        output.asImageBitmap()
+                        println("❌ PixelCopy falló con código: $result")
                     }
-                } else {
-                    imageBitmap = null
-                }
-            }, Handler(Looper.getMainLooper()))
-        }
-        .drawBehind {
-            imageBitmap?.let { img ->
-                drawIntoCanvas { canvas ->
-                    val paint = Paint()
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        val frameworkPaint = paint.asFrameworkPaint()
-                        frameworkPaint.isAntiAlias = true
-                        val effect = android.graphics.RenderEffect.createBlurEffect(
-                            blurPx,
-                            blurPx,
-                            android.graphics.Shader.TileMode.CLAMP
-                        )
-                        frameworkPaint.setShadowLayer(0f, 0f, 0f, android.graphics.Color.TRANSPARENT) // evitar errores de HW
-                        frameworkPaint.setRenderEffectCompat(effect)
-                    }
-                    canvas.drawImage(img, Offset.Zero, paint)
+                }, Handler(Looper.getMainLooper()))
+            } else {
+                try {
+                    val fullBitmap = view.drawToBitmap(Bitmap.Config.ARGB_8888)
+                    val cropped = Bitmap.createBitmap(
+                        fullBitmap,
+                        rect.left,
+                        rect.top,
+                        rect.width(),
+                        rect.height()
+                    )
+                    fullBitmap.recycle()
+                    BlurUtils.nativeBlurBitmap(cropped, radius)
+                    blurredImage = cropped
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
-            if (blurOpacity > 0f) {
-                drawRect(color = blurColor, alpha = blurOpacity)
+        }
+    }
+
+    this
+        .onGloballyPositioned { coords ->
+            val position = coords.positionInWindow()
+            val size = coords.size
+            if (size != targetSize) {
+                targetSize = size
+                targetRect = Rect(
+                    position.x.toInt(),
+                    position.y.toInt(),
+                    position.x.toInt() + size.width,
+                    position.y.toInt() + size.height
+                )
+            }
+        }
+        .drawWithContent {
+            blurredImage?.let { bmp ->
+                println("✅ Dibujando imagen desenfocada")
+                drawImage(bmp.asImageBitmap())
+            } ?: run {
+                println("🕐 Aún no hay imagen para dibujar")
+                drawContent()
             }
         }
 }
@@ -101,15 +99,4 @@ private fun Context.findActivity(): Activity? = when (this) {
     is Activity -> this
     is ContextWrapper -> baseContext.findActivity()
     else -> null
-}
-@RequiresApi(Build.VERSION_CODES.S)
-@Suppress("DEPRECATION")
-fun android.graphics.Paint.setRenderEffectCompat(effect: android.graphics.RenderEffect) {
-    try {
-        val method = android.graphics.Paint::class.java.getDeclaredMethod("setRenderEffect", android.graphics.RenderEffect::class.java)
-        method.isAccessible = true
-        method.invoke(this, effect)
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
 }
