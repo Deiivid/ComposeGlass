@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 add_library(
-        nativeblur
+        renderscript_toolkit
         SHARED
-        blur.cpp
+        renderscript_toolkit.cpp
 )
 
 find_library(
@@ -11,7 +11,14 @@ find_library(
         log
 )
 
+# 🔧 Añade esta línea
+find_library(
+        jnigraphics-lib
+        jnigraphics
+)
+
 target_link_libraries(
-        nativeblur
+        renderscript_toolkit
         ${log-lib}
+        ${jnigraphics-lib}   # <- Aquí enlazamos jnigraphics
 )

@@ -17,10 +17,8 @@ fun GlassImageExample(painter: Painter) {
         modifier = Modifier
             .size(200.dp)
             .glassEffect(
-                blurRadius = 10,
+                blurRadius = 10.dp,
                 blurOpacity = 0.3f,
-                useThemeColors = true,
-                themeMode = ThemeMode.AUTO
             )
     )
 }

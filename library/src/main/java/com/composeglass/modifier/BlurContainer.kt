@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -30,7 +31,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BlurContainer(
     modifier: Modifier = Modifier,
-    blurRadius: Int = 15,
+    blurRadius: Dp = 15.dp,
     blurOpacity: Float = 0.3f,
     blurColor: Color = Color.White,
     borderColor: Color = Color.Transparent,
@@ -49,8 +50,6 @@ fun BlurContainer(
                 blurRadius = blurRadius,
                 blurOpacity = blurOpacity,
                 blurColor = blurColor,
-                useThemeColors = useThemeColors,
-                themeMode = themeMode
             )
             .then(
                 if (borderWidth > 0f) Modifier.border(borderWidth.dp, borderColor) else Modifier
@@ -59,7 +58,7 @@ fun BlurContainer(
         // APIS < 31 => usar tu KotlinBlur como fallback
         modifier
             .fillMaxSize()
-            .glassEffect(blurRadius = 20, blurOpacity = 0.5f, blurColor = Color.Black)            .then(
+            .glassEffect(blurRadius = 20.dp, blurOpacity = 0.5f, blurColor = Color.Black)            .then(
                 if (borderWidth > 0f) Modifier.border(borderWidth.dp, borderColor) else Modifier
             )
     }

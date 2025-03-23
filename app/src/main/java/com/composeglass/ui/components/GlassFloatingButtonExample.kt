@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.composeglass.modifier.glassEffect
 
@@ -14,7 +15,7 @@ import com.composeglass.modifier.glassEffect
 fun GlassFloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    blurRadius: Int = 15,
+    blurRadius: Dp = 15.dp,
     blurOpacity: Float = 0.3f,
     blurColor: Color = Color.White,
     content: @Composable () -> Unit

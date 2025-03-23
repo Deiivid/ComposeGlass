@@ -56,7 +56,7 @@ fun GlassListExample(items: List<String>) {
         modifier = Modifier
             .fillMaxSize()
             .glassEffect(
-                blurRadius = animatedBlurRadius.toInt(),
+                blurRadius = animatedBlurRadius.dp,
                 blurOpacity = animatedOpacity
             ),
         contentAlignment = Alignment.Center
