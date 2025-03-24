@@ -10,6 +10,11 @@ find_library(
         jnigraphics
 )
 
+target_sources(glassblur
+        PRIVATE
+        RenderScriptToolkit.cpp
+)
+
 target_link_libraries(
         glassblur         # <--- Y también aquí
         ${log-lib}
