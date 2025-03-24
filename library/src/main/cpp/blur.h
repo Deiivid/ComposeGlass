@@ -14,8 +14,7 @@ namespace composeglass {
  * @param height Alto de la imagen en píxeles.
  * @param radius Radio del desenfoque (ej: 5, 10, 20).
  */
-    void stackBlur(uint8_t* pixels, int width, int height, int radius);
-
+    void stackBlur(uint8_t* pix, int w, int h, int radius);
 } // namespace composeglass
 
 #endif // COMPOSEGLASS_BLUR_H

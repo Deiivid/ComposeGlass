@@ -1,102 +1,95 @@
 package com.composeglass.modifier
 
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.graphics.Bitmap
-import android.graphics.Rect
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.view.PixelCopy
-import android.view.Window
-import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInWindow
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.layer.GraphicsLayer
+import androidx.compose.ui.node.DrawModifierNode
+import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.unit.IntSize
-import androidx.core.view.drawToBitmap
 import com.composeglass.modifier.oldVersionBlur.BlurUtils
-import kotlinx.coroutines.delay
 
-fun Modifier.glassBlur(radius: Int): Modifier = composed {
-    val context = LocalContext.current
-    val view = LocalView.current
-    var blurredImage by remember { mutableStateOf<Bitmap?>(null) }
-    var targetRect by remember { mutableStateOf<Rect?>(null) }
-    var targetSize by remember { mutableStateOf(IntSize.Zero) }
+fun Modifier.glassBlur(
+    radius: Int,
+    gradient: Brush = Brush.verticalGradient(
+        listOf(
+            Color.White.copy(alpha = 0.25f),
+            Color.White.copy(alpha = 0.05f)
+        )
+    )
+): Modifier = this then BlurGlassModifier(radius, gradient)
 
-    val window: Window? = (context as? ContextWrapper)?.findActivity()?.window
+private data class BlurGlassModifier(
+    val radius: Int,
+    val gradient: Brush
+) : ModifierNodeElement<BlurGlassNode>() {
+    override fun create() = BlurGlassNode(radius, gradient)
+    override fun update(node: BlurGlassNode) {
+        node.radius = radius
+        node.gradient = gradient
+    }
+    override fun hashCode() = radius.hashCode() * 31 + gradient.hashCode()
+    override fun equals(other: Any?) = other is BlurGlassModifier &&
+            other.radius == radius && other.gradient == gradient
+}
+private class BlurGlassNode(
+    var radius: Int,
+    var gradient: Brush
+) : Modifier.Node(), DrawModifierNode {
 
-    // 👇 Aquí es donde diferimos el PixelCopy
-    LaunchedEffect(targetRect) {
-        targetRect?.let { rect ->
-            delay(100) // esperamos un frame aprox
-            val dest = Bitmap.createBitmap(rect.width(), rect.height(), Bitmap.Config.ARGB_8888)
+    private var blurredBitmap: ImageBitmap? = null
+    private var lastSize: IntSize = IntSize.Zero
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && window != null) {
-                PixelCopy.request(window, rect, dest, { result ->
-                    if (result == PixelCopy.SUCCESS) {
-                        println("✅ PixelCopy capturado correctamente")
-                        BlurUtils.nativeBlurBitmap(dest, radius)
-                        println("✅ Blur aplicado correctamente")
-                        blurredImage = dest
-                    } else {
-                        println("❌ PixelCopy falló con código: $result")
-                    }
-                }, Handler(Looper.getMainLooper()))
-            } else {
-                try {
-                    val fullBitmap = view.drawToBitmap(Bitmap.Config.ARGB_8888)
-                    val cropped = Bitmap.createBitmap(
-                        fullBitmap,
-                        rect.left,
-                        rect.top,
-                        rect.width(),
-                        rect.height()
-                    )
-                    fullBitmap.recycle()
-                    BlurUtils.nativeBlurBitmap(cropped, radius)
-                    blurredImage = cropped
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
+    override fun ContentDrawScope.draw() {
+        val intWidth = size.width.toInt()
+        val intHeight = size.height.toInt()
+        val currentSize = IntSize(intWidth, intHeight)
+
+        if (blurredBitmap == null || currentSize != lastSize) {
+            lastSize = currentSize
+            val contentBitmap = drawIntoImage(intWidth, intHeight)
+            val testCanvas = Canvas(contentBitmap)
+            testCanvas.drawRect(Rect(0f, 0f, 100f, 100f), Paint().apply { color = Color.Transparent })
+            val blurred = applyNativeBlur(contentBitmap, radius)
+
+            blurredBitmap = blurred
+        }
+
+        blurredBitmap?.let {
+            drawImage(it)
+            drawRect(brush = gradient, blendMode = BlendMode.Overlay)
+        } ?: run {
+            drawContent()
         }
     }
 
-    this
-        .onGloballyPositioned { coords ->
-            val position = coords.positionInWindow()
-            val size = coords.size
-            if (size != targetSize) {
-                targetSize = size
-                targetRect = Rect(
-                    position.x.toInt(),
-                    position.y.toInt(),
-                    position.x.toInt() + size.width,
-                    position.y.toInt() + size.height
-                )
-            }
-        }
-        .drawWithContent {
-            blurredImage?.let { bmp ->
-                println("✅ Dibujando imagen desenfocada")
-                drawImage(bmp.asImageBitmap())
-            } ?: run {
-                println("🕐 Aún no hay imagen para dibujar")
-                drawContent()
-            }
-        }
-}
+    private fun ContentDrawScope.drawIntoImage(width: Int, height: Int): ImageBitmap {
+        val imageBitmap = ImageBitmap(width, height)
+        val canvas = Canvas(imageBitmap)
+        val originalCanvas = drawContext.canvas
+        drawContext.canvas = canvas
+        canvas.drawRect(
+            Rect(0f, 0f, width.toFloat(), height.toFloat()),
+            Paint().apply { color = Color.White } // o cualquier color que tú quieras
+        )
+        drawContent()
+        drawContext.canvas = originalCanvas
+        return imageBitmap
+    }
 
-private fun Context.findActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.findActivity()
-    else -> null
+    private fun applyNativeBlur(bitmap: ImageBitmap, radius: Int): ImageBitmap {
+        val androidBitmap = bitmap.asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, true)
+        BlurUtils.nativeBlurBitmap(androidBitmap, radius)
+        return androidBitmap.asImageBitmap()
+    }
 }

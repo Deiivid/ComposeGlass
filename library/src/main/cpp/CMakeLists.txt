@@ -20,7 +20,7 @@ target_sources(glassblur
 )
 
 target_link_libraries(
-        glassblur         # <--- Y también aquí
+        glassblur
         ${log-lib}
         ${jnigraphics-lib}
 )

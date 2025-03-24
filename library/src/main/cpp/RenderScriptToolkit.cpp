@@ -13,9 +13,8 @@ namespace composeglass {
         size_t startY = restriction ? restriction->startY : 0;
         size_t endY = restriction ? restriction->endY : height;
 
-        // Por ahora, no se usa la restricción
         std::memcpy(output, input, height * stride);
-        stackBlur(output, width, height, radius); // <- aquí está la llamada a tu función nativa
+        stackBlur(output, width, height, radius);
     }
 
-}ya
+}

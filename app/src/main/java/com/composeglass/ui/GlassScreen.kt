@@ -90,6 +90,7 @@ fun GlassScreen() {
                 ) {
                     Text("Glassmorphism Applied")
                 }
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -99,6 +100,7 @@ fun GlassScreen() {
                             )
                         )
                 ) {
+
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
