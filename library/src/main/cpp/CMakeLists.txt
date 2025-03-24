@@ -1,24 +1,26 @@
 cmake_minimum_required(VERSION 3.4.1)
-
 add_library(
-        renderscript_toolkit
+        glassblur
         SHARED
-        renderscript_toolkit.cpp
+        blur.cpp
 )
-
 find_library(
         log-lib
         log
 )
 
-# 🔧 Añade esta línea
 find_library(
         jnigraphics-lib
         jnigraphics
 )
 
+target_sources(glassblur
+        PRIVATE
+        RenderScriptToolkit.cpp
+)
+
 target_link_libraries(
-        renderscript_toolkit
+        glassblur
         ${log-lib}
-        ${jnigraphics-lib}   # <- Aquí enlazamos jnigraphics
+        ${jnigraphics-lib}
 )

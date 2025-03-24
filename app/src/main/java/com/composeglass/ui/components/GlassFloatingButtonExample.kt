@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.glassEffect
+import com.composeglass.modifier.glassBlur
 
 @Composable
 fun GlassFloatingActionButton(
@@ -23,7 +23,7 @@ fun GlassFloatingActionButton(
     Box(
         modifier = modifier
             .size(56.dp)
-            .glassEffect(blurRadius = blurRadius, blurOpacity = blurOpacity, blurColor = blurColor),
+            .glassBlur(radius = 20),
         contentAlignment = Alignment.Center
     ) {
         FloatingActionButton(onClick = onClick) {

@@ -1,94 +1,119 @@
 #include <jni.h>
+#include <android/bitmap.h>
+#include "RenderScriptToolkit.h"
+#include "blur.h"
 #include <vector>
-#include <cmath>
-#include <algorithm>
 
-// Clamp para mantener los índices dentro del rango válido
-static inline int clampIndex(int x, int maxVal) {
-    return std::max(0, std::min(x, maxVal));
-}
-
-// Genera un kernel gaussiano 1D
-static std::vector<float> createGaussianKernel(int radius, float sigma) {
-    std::vector<float> kernel(2 * radius + 1);
-    float sum = 0.0f;
-    for (int i = -radius; i <= radius; i++) {
-        float x = float(i);
-        float val = std::exp(-(x * x) / (2 * sigma * sigma));
-        kernel[i + radius] = val;
-        sum += val;
-    }
-    for (float &value : kernel) value /= sum;
-    return kernel;
-}
-
-// Aplica convolución 1D a una dirección
-static void applyConvolution1D(
-        const std::vector<int>& src,
-        std::vector<int>& dst,
-        int width,
-        int height,
-        const std::vector<float>& kernel,
-        bool horizontal
-) {
-    int radius = static_cast<int>(kernel.size()) / 2;
-
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            float r = 0, g = 0, b = 0, a = 0;
-            for (int k = -radius; k <= radius; ++k) {
-                int sampleX = horizontal ? clampIndex(x + k, width - 1) : x;
-                int sampleY = horizontal ? y : clampIndex(y + k, height - 1);
-                int pixel = src[sampleY * width + sampleX];
-
-                float coeff = kernel[k + radius];
-                a += ((pixel >> 24) & 0xFF) * coeff;
-                r += ((pixel >> 16) & 0xFF) * coeff;
-                g += ((pixel >> 8) & 0xFF) * coeff;
-                b += (pixel & 0xFF) * coeff;
-            }
-
-            int finalA = std::clamp(static_cast<int>(a), 0, 255);
-            int finalR = std::clamp(static_cast<int>(r), 0, 255);
-            int finalG = std::clamp(static_cast<int>(g), 0, 255);
-            int finalB = std::clamp(static_cast<int>(b), 0, 255);
-
-            dst[y * width + x] = (finalA << 24) | (finalR << 16) | (finalG << 8) | finalB;
-        }
-    }
-}
+using namespace composeglass;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_composeglass_modifier_oldVersionBlur_BlurNative_gaussianBlur(
-        JNIEnv* env,
-        jclass clazz,
-        jintArray pixels_,
-        jint width,
-        jint height,
-        jint radius
+Java_com_composeglass_modifier_oldVersionBlur_BlurUtils_nativeBlurBitmap(
+        JNIEnv *env, jclass, jobject bitmap, jint radius
 ) {
-    if (radius < 1 || width < 1 || height < 1) return;
+    if (radius < 1) return;
 
-    jint* pixels = env->GetIntArrayElements(pixels_, nullptr);
-    if (!pixels) return;
+    AndroidBitmapInfo info;
+    void* pixels;
+    if (AndroidBitmap_getInfo(env, bitmap, &info) != ANDROID_BITMAP_RESULT_SUCCESS) return;
+    if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888) return;
+    if (AndroidBitmap_lockPixels(env, bitmap, &pixels) != ANDROID_BITMAP_RESULT_SUCCESS) return;
 
-    std::vector<int> src(pixels, pixels + (width * height));
-    std::vector<int> temp(width * height);
-    std::vector<int> dst(width * height);
+    RenderScriptToolkit toolkit;
+    std::vector<uint8_t> input(static_cast<uint8_t*>(pixels),
+                               static_cast<uint8_t*>(pixels) + info.height * info.stride);
+    toolkit.blur(input.data(), static_cast<uint8_t*>(pixels),
+                 info.width, info.height, info.stride, radius);
 
-    float sigma = radius / 3.0f;
-    auto kernel = createGaussianKernel(radius, sigma);
+    AndroidBitmap_unlockPixels(env, bitmap);
+}
 
-    // Convolución horizontal
-    applyConvolution1D(src, temp, width, height, kernel, true);
-    // Convolución vertical
-    applyConvolution1D(temp, dst, width, height, kernel, false);
+namespace composeglass {
 
-    // Copia el resultado de vuelta a Java
-    for (int i = 0; i < width * height; i++) {
-        pixels[i] = dst[i];
+
+    void stackBlur(uint8_t* pix, int w, int h, int radius) {
+        if (radius < 1) return;
+
+        int wm = w - 1;
+        int hm = h - 1;
+        int wh = w * h;
+        int div = radius + radius + 1;
+
+        std::vector<int> r(wh);
+        std::vector<int> g(wh);
+        std::vector<int> b(wh);
+
+        std::vector<int> vmin(std::max(w, h));
+        std::vector<int> dv(256 * div);
+
+        for (int i = 0; i < 256 * div; i++) {
+            dv[i] = i / div;
+        }
+
+        int yi = 0;
+        int yw = 0;
+
+        for (int y = 0; y < h; y++) {
+            int rsum = 0, gsum = 0, bsum = 0;
+            for (int i = -radius; i <= radius; i++) {
+                int p = (yi + std::min(wm, std::max(i, 0))) * 4;
+                rsum += pix[p + 0];
+                gsum += pix[p + 1];
+                bsum += pix[p + 2];
+            }
+
+            for (int x = 0; x < w; x++) {
+                int p = (yi + x) * 4;
+                r[p / 4] = dv[rsum];
+                g[p / 4] = dv[gsum];
+                b[p / 4] = dv[bsum];
+
+                if (y == 0) {
+                    vmin[x] = std::min(x + radius + 1, wm);
+                }
+                int p1 = (yi + vmin[x]) * 4;
+                int p2 = (yi + std::max(x - radius, 0)) * 4;
+
+                rsum += pix[p1 + 0] - pix[p2 + 0];
+                gsum += pix[p1 + 1] - pix[p2 + 1];
+                bsum += pix[p1 + 2] - pix[p2 + 2];
+            }
+            yi += w;
+        }
+
+        for (int x = 0; x < w; x++) {
+            int rsum = 0, gsum = 0, bsum = 0;
+            int yp = -radius * w;
+
+            for (int i = -radius; i <= radius; i++) {
+                int yi = std::max(0, yp) + x;
+                rsum += r[yi];
+                gsum += g[yi];
+                bsum += b[yi];
+                yp += w;
+            }
+
+            int yi = x;
+            for (int y = 0; y < h; y++) {
+                int p = yi * 4;
+                pix[p + 0] = dv[rsum];
+                pix[p + 1] = dv[gsum];
+                pix[p + 2] = dv[bsum];
+                pix[p + 3] = 255; // Alpha
+
+                if (x == 0) {
+                    vmin[y] = std::min(y + radius + 1, hm) * w;
+                }
+                int p1 = x + vmin[y];
+                int p2 = x + std::max(y - radius, 0) * w;
+
+                rsum += r[p1] - r[p2];
+                gsum += g[p1] - g[p2];
+                bsum += b[p1] - b[p2];
+
+                yi += w;
+            }
+        }
     }
 
-    env->ReleaseIntArrayElements(pixels_, pixels, 0);
 }

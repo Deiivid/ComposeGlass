@@ -1,17 +1,11 @@
 package com.composeglass.modifier.oldVersionBlur
 
+import android.graphics.Bitmap
 
-object BlurNative {
+object BlurUtils {
     init {
-        // Debe coincidir con el nombre que diste en CMakeLists.txt => nativeblur
-        System.loadLibrary("nativeblur")
+        System.loadLibrary("glassblur")
     }
 
-    // Declaración JNI (coincide con la firma en blur.cpp)
-    external fun gaussianBlur(
-        pixels: IntArray,
-        width: Int,
-        height: Int,
-        radius: Int
-    )
+    external fun nativeBlurBitmap(bitmap: Bitmap, radius: Int)
 }
