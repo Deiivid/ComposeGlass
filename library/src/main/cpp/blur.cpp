@@ -99,7 +99,7 @@ namespace composeglass {
                 pix[p + 0] = dv[rsum];
                 pix[p + 1] = dv[gsum];
                 pix[p + 2] = dv[bsum];
-                pix[p + 3] = 255; // Alpha
+                pix[p + 3] = 255;
 
                 if (x == 0) {
                     vmin[y] = std::min(y + radius + 1, hm) * w;

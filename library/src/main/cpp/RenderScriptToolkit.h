@@ -21,6 +21,6 @@ namespace composeglass {
                   const Restriction* restriction = nullptr);
     };
 
-} // namespace composeglass
+}
 
-#endif // COMPOSEGLASS_RENDERSCRIPTTOOLKIT_H
+#endif
