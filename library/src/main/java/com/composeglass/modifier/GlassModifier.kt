@@ -1,9 +1,9 @@
 package com.composeglass.modifier
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Canvas
@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
-import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.unit.IntSize
@@ -29,6 +28,7 @@ fun Modifier.glassBlur(
     )
 ): Modifier = this then BlurGlassModifier(radius, gradient)
 
+@SuppressLint("ModifierNodeInspectableProperties")
 private data class BlurGlassModifier(
     val radius: Int,
     val gradient: Brush
@@ -80,7 +80,7 @@ private class BlurGlassNode(
         drawContext.canvas = canvas
         canvas.drawRect(
             Rect(0f, 0f, width.toFloat(), height.toFloat()),
-            Paint().apply { color = Color.White } // o cualquier color que tú quieras
+            Paint().apply { color = Color.White }
         )
         drawContent()
         drawContext.canvas = originalCanvas
