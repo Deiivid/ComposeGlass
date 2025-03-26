@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.composeglass.modifier.BlurThemeMode
 import com.composeglass.modifier.glassBlur
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,10 +76,10 @@ fun GlassScreen() {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .glassBlur(radius = 20)
+                        .glassBlur(radius = 5,themeMode = BlurThemeMode.Light)
 
                 ){
-                    Text("Glassmorphism 1")
+                    Text("Glassmorphism 1vdfgdfgdfgdg")
 
                 }
 
@@ -104,7 +105,7 @@ fun GlassScreen() {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .glassBlur(radius = 20)
+                            .glassBlur(radius = 20,themeMode = BlurThemeMode.Auto)
                     ) {
                         Text("Glassmorphism Applied")
 
@@ -127,7 +128,7 @@ fun GlassCard(
 ) {
     Box(
         modifier = modifier
-            .glassBlur(radius = 20)
+            .glassBlur(radius = 20, themeMode = BlurThemeMode.Light)
             .clip(RoundedCornerShape(cornerRadius))
             .border(1.dp, blurColor.copy(alpha = 0.1f), RoundedCornerShape(cornerRadius))
             .shadow(4.dp, RoundedCornerShape(cornerRadius)),
