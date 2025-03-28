@@ -76,9 +76,11 @@ fun GlassScreen() {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .glassBlur(radius = 5,themeMode = BlurThemeMode.Light)
-
-                ){
+                        .glassBlur {
+                            radius = 5
+                            themeMode = BlurThemeMode.Light
+                        }
+                ) {
                     Text("Glassmorphism 1vdfgdfgdfgdg")
 
                 }
@@ -105,8 +107,11 @@ fun GlassScreen() {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .glassBlur(radius = 20,themeMode = BlurThemeMode.Auto)
-                    ) {
+                            .glassBlur {
+                                radius = 5
+                                themeMode = BlurThemeMode.Light
+                                blurColor = Color.Red
+                            }) {
                         Text("Glassmorphism Applied")
 
                     }
@@ -128,7 +133,10 @@ fun GlassCard(
 ) {
     Box(
         modifier = modifier
-            .glassBlur(radius = 20, themeMode = BlurThemeMode.Light)
+            .glassBlur {
+                radius = 5
+                themeMode = BlurThemeMode.Auto
+            }
             .clip(RoundedCornerShape(cornerRadius))
             .border(1.dp, blurColor.copy(alpha = 0.1f), RoundedCornerShape(cornerRadius))
             .shadow(4.dp, RoundedCornerShape(cornerRadius)),
@@ -136,6 +144,7 @@ fun GlassCard(
         content = content
     )
 }
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewGlassScreen() {

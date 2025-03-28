@@ -13,8 +13,10 @@ fun GlassButtonExample() {
     Button(
         onClick = { /* Action */ },
         modifier = Modifier
-            .glassBlur(radius = 20)
-            .padding(8.dp)
+            .glassBlur {
+                radius = 5
+            }
+
     ) {
         Text(text = "Glass Button")
     }

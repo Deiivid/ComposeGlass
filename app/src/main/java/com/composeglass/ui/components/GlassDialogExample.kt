@@ -1,3 +1,4 @@
+/*
 package com.composeglass.ui.components
 
 import androidx.compose.foundation.background
@@ -28,10 +29,13 @@ fun GlassDialogExample(
         ) {
             AlertDialog(
                 onDismissRequest = onDismiss,
-                confirmButton = { /* Add confirm button */ },
+                confirmButton = { */
+/* Add confirm button *//*
+ },
                 title = { Text("Glass Dialog") },
                 text = { content() }
             )
         }
     }
 }
+*/

@@ -55,9 +55,11 @@ fun GlassListExample(items: List<String>) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .glassBlur(radius = 20),
+            .glassBlur {
+                radius = 5
+            },
 
-                contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

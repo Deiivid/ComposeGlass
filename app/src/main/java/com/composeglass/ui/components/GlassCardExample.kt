@@ -12,8 +12,9 @@ import com.composeglass.modifier.glassBlur
 fun GlassCardExample() {
     Card(
         modifier = Modifier
-            .padding(16.dp)
-            .glassBlur(radius = 20)
+            .glassBlur {
+                radius = 5
+            },
     ) {
         Text(text = "This is a Glass Card", modifier = Modifier.padding(16.dp))
     }

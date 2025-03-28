@@ -10,14 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Canvas
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
@@ -27,38 +20,50 @@ import androidx.compose.ui.unit.dp
 import com.composeglass.modifier.oldVersionBlur.BlurUtils
 
 /**
- * Enum to define the theme mode for the blur effect.
+ * Defines the theme mode used by the glass blur effect.
+ * - Auto: adapts to the system theme
+ * - Light / Dark: forces the blur style regardless of the system theme
  */
 enum class BlurThemeMode {
     Auto, Light, Dark
 }
 
 /**
- * Applies a glassmorphism blur effect to the Composable.
- * Uses Android 12+ native blur or a custom blur fallback for older versions.
+ * Configuration class for the glass blur effect.
+ * Can be used as a DSL to customize blur radius, theme mode, color and gradient.
+ */
+class BlurGlassConfig {
+    var radius: Int = 20                       // Blur radius
+    var themeMode: BlurThemeMode = BlurThemeMode.Auto // Theme mode (auto/light/dark)
+    var blurColor: Color? = null               // Optional background color for blur
+    var gradient: Brush? = null                // Optional gradient overlay
+}
+
+/**
+ * Applies a glassmorphism-style blur modifier.
+ * - On Android 12+: uses native RenderEffect.blur()
+ * - On Android <12: uses native blur via C++ (JNI)
  *
- * @param radius The blur radius in dp.
- * @param themeMode Automatically adapts to system theme unless forced.
- * @param gradient Optional gradient overlay. If null, a default is used based on theme.
+ * @param configBlock DSL block to customize blur appearance
+ * @return Modifier with the applied blur and gradient effect
  */
 @Composable
 fun Modifier.glassBlur(
-    radius: Int,
-    themeMode: BlurThemeMode = BlurThemeMode.Auto,
-    gradient: Brush? = null
+    configBlock: BlurGlassConfig.() -> Unit
 ): Modifier {
-    val isDark = when (themeMode) {
+    val config = BlurGlassConfig().apply(configBlock)
+
+    val isDark = when (config.themeMode) {
         BlurThemeMode.Light -> false
         BlurThemeMode.Dark -> true
         BlurThemeMode.Auto -> isSystemInDarkTheme()
     }
 
-    // Background color and overlay opacity based on theme
-    val backgroundColor = if (isDark) Color.Black else Color.White
+    val defaultBackground = if (isDark) Color.Black else Color.White
     val overlayOpacity = if (isDark) 0.7f else 0.3f
+    val resolvedColor = config.blurColor ?: defaultBackground
 
-    // Use provided gradient or fallback to default vertical gradient
-    val resolvedGradient = gradient ?: Brush.verticalGradient(
+    val resolvedGradient = config.gradient ?: Brush.verticalGradient(
         if (isDark)
             listOf(Color.Black.copy(alpha = 0.25f), Color.Black.copy(alpha = 0.05f))
         else
@@ -66,25 +71,25 @@ fun Modifier.glassBlur(
     )
 
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        // Use Android 12+ RenderEffect API
+        // Use native blur effect on Android 12+
         glassBlurAndroid12(
-            radius = radius,
-            backgroundColor = backgroundColor,
+            radius = config.radius,
+            backgroundColor = resolvedColor,
             blurOpacity = overlayOpacity,
             gradient = resolvedGradient
         )
     } else {
-        // Fallback to custom blur for Android < 12
+        // Use custom blur effect on Android <12
         glassBlurAndroid11(
-            radius = radius,
-            backgroundColor = backgroundColor,
+            radius = config.radius,
+            backgroundColor = resolvedColor,
             gradient = resolvedGradient
         )
     }
 }
 
 /**
- * Modifier for Android < 12 using a custom draw implementation with native blur.
+ * Custom blur fallback for Android <12 using JNI-based blur engine.
  */
 @SuppressLint("ModifierNodeInspectableProperties")
 private data class BlurGlassModifier(
@@ -96,8 +101,7 @@ private data class BlurGlassModifier(
     override fun create() = BlurGlassNode(radius, gradient, backgroundColor)
 
     override fun update(node: BlurGlassNode) {
-        val changed =
-            node.radius != radius || node.gradient != gradient || node.backgroundColor != backgroundColor
+        val changed = node.radius != radius || node.gradient != gradient || node.backgroundColor != backgroundColor
         node.radius = radius
         node.gradient = gradient
         node.backgroundColor = backgroundColor
@@ -109,12 +113,11 @@ private data class BlurGlassModifier(
             other.gradient == gradient &&
             other.backgroundColor == backgroundColor
 
-    override fun hashCode() =
-        31 * radius.hashCode() + gradient.hashCode() + backgroundColor.hashCode()
+    override fun hashCode() = 31 * radius.hashCode() + gradient.hashCode() + backgroundColor.hashCode()
 }
 
 /**
- * DrawModifierNode that applies blur to the captured content using native C++ blur.
+ * Modifier node that draws the blurred content using native bitmap processing.
  */
 private class BlurGlassNode(
     var radius: Int,
@@ -130,7 +133,7 @@ private class BlurGlassNode(
         val height = size.height.toInt()
         val currentSize = IntSize(width, height)
 
-        // Re-capture and blur bitmap if size changes
+        // Re-capture and blur if the size changed
         if (blurredBitmap == null || currentSize != lastSize) {
             lastSize = currentSize
             val contentBitmap = drawIntoImage(width, height)
@@ -144,27 +147,29 @@ private class BlurGlassNode(
     }
 
     /**
-     * Captures the current drawing content into an ImageBitmap.
+     * Renders the content into an ImageBitmap to apply the blur effect.
      */
     private fun ContentDrawScope.drawIntoImage(width: Int, height: Int): ImageBitmap {
         val bitmap = ImageBitmap(width, height)
         val canvas = Canvas(bitmap)
-        val original = drawContext.canvas
+        val originalCanvas = drawContext.canvas
         drawContext.canvas = canvas
 
-        // Fill with background color before drawing content
+        // Draw solid background before rendering content
         canvas.drawRect(
             Rect(0f, 0f, width.toFloat(), height.toFloat()),
             Paint().apply { color = backgroundColor }
         )
 
         drawContent()
-        drawContext.canvas = original
+
+        // Restore original canvas
+        drawContext.canvas = originalCanvas
         return bitmap
     }
 
     /**
-     * Applies the native blur using RenderScriptToolkit or C++ (from BlurUtils).
+     * Applies a native (C++) blur to the image.
      */
     private fun applyNativeBlur(bitmap: ImageBitmap, radius: Int): ImageBitmap {
         val androidBitmap = bitmap.asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, true)
@@ -173,7 +178,7 @@ private class BlurGlassNode(
     }
 
     /**
-     * Clears the cached blurred image and triggers re-draw.
+     * Clears cached image and forces a redraw.
      */
     fun clearCache() {
         blurredBitmap = null
@@ -182,12 +187,7 @@ private class BlurGlassNode(
 }
 
 /**
- * Modifier for Android 12+ using native blur and overlay gradient.
- *
- * @param radius The blur radius.
- * @param gradient The gradient to overlay.
- * @param backgroundColor The color below the blur.
- * @param blurOpacity The alpha to apply on background color.
+ * Native blur implementation using Android 12+ RenderEffect.
  */
 fun Modifier.glassBlurAndroid12(
     radius: Int,
@@ -207,11 +207,7 @@ fun Modifier.glassBlurAndroid12(
 }
 
 /**
- * Modifier fallback for Android < 12 that applies custom native blur via Modifier.Node.
- *
- * @param radius The blur radius.
- * @param backgroundColor The solid background behind the content.
- * @param gradient The gradient overlay.
+ * Fallback implementation for Android <12 using native C++ blur.
  */
 fun Modifier.glassBlurAndroid11(
     radius: Int,

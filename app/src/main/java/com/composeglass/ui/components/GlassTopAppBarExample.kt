@@ -1,3 +1,4 @@
+/*
 package com.composeglass.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,3 +26,4 @@ fun GlassTopAppBarExample(title: String) {
             .glassBlur(radius = 20)
     )
 }
+*/

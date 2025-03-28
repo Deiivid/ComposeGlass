@@ -1,3 +1,4 @@
+/*
 package com.composeglass.ui.components
 
 import androidx.compose.foundation.layout.Box
@@ -36,3 +37,4 @@ fun GlassListWithHeaderExample(items: List<String>) {
         }
     }
 }
+*/
