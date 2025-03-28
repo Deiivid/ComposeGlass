@@ -41,24 +41,33 @@ enum class BlurThemeMode {
  * @param themeMode Automatically adapts to system theme unless forced.
  * @param gradient Optional gradient overlay. If null, a default is used based on theme.
  */
+
+class BlurGlassConfig {
+    var radius: Int = 20
+    var themeMode: BlurThemeMode = BlurThemeMode.Auto
+    var blurColor: Color? = null
+    var gradient: Brush? = null
+}
+
+
 @Composable
 fun Modifier.glassBlur(
-    radius: Int,
-    themeMode: BlurThemeMode = BlurThemeMode.Auto,
-    gradient: Brush? = null
+    configBlock: BlurGlassConfig.() -> Unit
 ): Modifier {
-    val isDark = when (themeMode) {
+    val config = BlurGlassConfig().apply(configBlock)
+
+    val isDark = when (config.themeMode) {
         BlurThemeMode.Light -> false
         BlurThemeMode.Dark -> true
         BlurThemeMode.Auto -> isSystemInDarkTheme()
     }
 
-    // Background color and overlay opacity based on theme
-    val backgroundColor = if (isDark) Color.Black else Color.White
+    val defaultBackground = if (isDark) Color.Black else Color.White
     val overlayOpacity = if (isDark) 0.7f else 0.3f
 
-    // Use provided gradient or fallback to default vertical gradient
-    val resolvedGradient = gradient ?: Brush.verticalGradient(
+    val resolvedColor = config.blurColor ?: defaultBackground
+
+    val resolvedGradient = config.gradient ?: Brush.verticalGradient(
         if (isDark)
             listOf(Color.Black.copy(alpha = 0.25f), Color.Black.copy(alpha = 0.05f))
         else
@@ -66,18 +75,16 @@ fun Modifier.glassBlur(
     )
 
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        // Use Android 12+ RenderEffect API
         glassBlurAndroid12(
-            radius = radius,
-            backgroundColor = backgroundColor,
+            radius = config.radius,
+            backgroundColor = resolvedColor,
             blurOpacity = overlayOpacity,
             gradient = resolvedGradient
         )
     } else {
-        // Fallback to custom blur for Android < 12
         glassBlurAndroid11(
-            radius = radius,
-            backgroundColor = backgroundColor,
+            radius = config.radius,
+            backgroundColor = resolvedColor,
             gradient = resolvedGradient
         )
     }

@@ -1,3 +1,4 @@
+/*
 package com.composeglass.ui.components
 
 import androidx.compose.animation.core.LinearEasing
@@ -76,3 +77,4 @@ fun GlassListExample(items: List<String>) {
         }
     }
 }
+*/
