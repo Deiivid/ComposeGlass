@@ -63,6 +63,7 @@ fun Modifier.glassBlur(
     val overlayOpacity = if (isDark) 0.7f else 0.3f
     val resolvedColor = config.blurColor ?: defaultBackground
 
+
     val resolvedGradient = config.gradient ?: Brush.verticalGradient(
         if (isDark)
             listOf(Color.Black.copy(alpha = 0.25f), Color.Black.copy(alpha = 0.05f))

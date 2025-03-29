@@ -1,6 +1,5 @@
 package com.composeglass.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,8 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -29,14 +28,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.composeglass.modifier.BlurThemeMode
 import com.composeglass.modifier.glassBlur
+import com.composeglass.ui.components.GlassBlurContainerExample
+import com.composeglass.ui.components.GlassButtonExample
+import com.composeglass.ui.components.GlassCardExample
+import com.composeglass.ui.components.GlassDialogExample
+import com.composeglass.ui.components.GlassFloatingActionButton
+import com.composeglass.ui.components.GlassImageExample
+import com.composeglass.ui.components.GlassListExample
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,78 +79,25 @@ fun GlassScreen() {
                     .fillMaxHeight(0.9f)
                     .verticalScroll(rememberScrollState())
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .glassBlur {
-                            radius = 5
-                            themeMode = BlurThemeMode.Light
-                        }
-                ) {
-                    Text("Glassmorphism 1vdfgdfgdfgdg")
+                GlassCardExample()
+                GlassButtonExample()
 
+                GlassImageExample(painterResource(id = com.composeglass.R.drawable.blur_test_image))
+
+                Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
+                    GlassListExample(glassItems)
+                }
+                GlassFloatingActionButton(onClick = { showDialog = true }) { Text("FAB") }
+                GlassDialogExample(showDialog = showDialog, onDismiss = { showDialog = false }) {
+                    Text("This is a Glass Dialog")
                 }
 
-                GlassCard(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .size(200.dp),
-                    blurRadius = 20.dp
-                ) {
-                    Text("Glassmorphism Applied")
-                }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            Brush.verticalGradient(
-                                listOf(Color.Red, Color.Green, Color.Blue)
-                            )
-                        )
-                ) {
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .glassBlur {
-                                radius = 5
-                                themeMode = BlurThemeMode.Light
-                                blurColor = Color.Red
-                            }) {
-                        Text("Glassmorphism Applied")
-
-                    }
-                }
+                GlassBlurContainerExample()
+                GlassBlurContainerExample()
             }
         }
     }
 }
-
-
-@Composable
-fun GlassCard(
-    modifier: Modifier = Modifier,
-    blurRadius: Dp = 20.dp,
-    blurOpacity: Float = 0.15f,
-    blurColor: Color = Color.White,
-    cornerRadius: Dp = 20.dp,
-    content: @Composable BoxScope.() -> Unit
-) {
-    Box(
-        modifier = modifier
-            .glassBlur {
-                radius = 5
-                themeMode = BlurThemeMode.Auto
-            }
-            .clip(RoundedCornerShape(cornerRadius))
-            .border(1.dp, blurColor.copy(alpha = 0.1f), RoundedCornerShape(cornerRadius))
-            .shadow(4.dp, RoundedCornerShape(cornerRadius)),
-        contentAlignment = Alignment.Center,
-        content = content
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewGlassScreen() {

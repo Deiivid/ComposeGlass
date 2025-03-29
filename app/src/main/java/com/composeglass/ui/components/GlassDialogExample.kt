@@ -1,4 +1,3 @@
-/*
 package com.composeglass.ui.components
 
 import androidx.compose.foundation.background
@@ -10,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import com.composeglass.modifier.glassBlur
 
 @Composable
@@ -23,19 +21,18 @@ fun GlassDialogExample(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .glassBlur(radius = 20)
+                .glassBlur {
+                    radius = 5
+                }
                 .background(Color.Black.copy(alpha = 0.3f)),
             contentAlignment = Alignment.Center
         ) {
             AlertDialog(
                 onDismissRequest = onDismiss,
-                confirmButton = { */
-/* Add confirm button *//*
- },
+                confirmButton = {},
                 title = { Text("Glass Dialog") },
                 text = { content() }
             )
         }
     }
 }
-*/
