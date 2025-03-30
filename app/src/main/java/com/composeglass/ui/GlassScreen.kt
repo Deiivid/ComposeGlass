@@ -43,6 +43,8 @@ import com.composeglass.ui.components.GlassDialogExample
 import com.composeglass.ui.components.GlassFloatingActionButton
 import com.composeglass.ui.components.GlassImageExample
 import com.composeglass.ui.components.GlassListExample
+import com.composeglass.ui.components.GlassListWithHeaderExample
+import com.composeglass.ui.components.GlassTopAppBarExample
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,9 +93,11 @@ fun GlassScreen() {
                 GlassDialogExample(showDialog = showDialog, onDismiss = { showDialog = false }) {
                     Text("This is a Glass Dialog")
                 }
-
+                GlassTopAppBarExample(title = "Custom Title")
                 GlassBlurContainerExample()
-                GlassBlurContainerExample()
+                Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
+                    GlassListWithHeaderExample(glassItems)
+                }
             }
         }
     }
