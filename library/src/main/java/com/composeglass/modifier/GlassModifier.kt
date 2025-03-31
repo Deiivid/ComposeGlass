@@ -3,6 +3,7 @@ package com.composeglass.modifier
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
@@ -17,7 +18,7 @@ import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.invalidateDraw
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.oldVersionBlur.BlurUtils
+import com.composeglass.modifier.utils.BlurUtils
 
 /**
  * Defines the theme mode used by the glass blur effect.
@@ -33,10 +34,10 @@ enum class BlurThemeMode {
  * Can be used as a DSL to customize blur radius, theme mode, color and gradient.
  */
 class BlurGlassConfig {
-    var radius: Int = 20                       // Blur radius
+    var radius: Int = 10                       // Blur radius
     var themeMode: BlurThemeMode = BlurThemeMode.Auto // Theme mode (auto/light/dark)
     var blurColor: Color? = null               // Optional background color for blur
-    var gradient: Brush? = null                // Optional gradient overlay
+    var gradientColors: List<Color>? = null  // Optional gradient overlay
 }
 
 /**
@@ -53,6 +54,10 @@ fun Modifier.glassBlur(
 ): Modifier {
     val config = BlurGlassConfig().apply(configBlock)
 
+    if (config.radius !in 1..10) {
+        throw IllegalArgumentException("❌ The 'radius' must be between 1 and 25. Received:  ${config.radius}")
+    }
+
     val isDark = when (config.themeMode) {
         BlurThemeMode.Light -> false
         BlurThemeMode.Dark -> true
@@ -60,23 +65,28 @@ fun Modifier.glassBlur(
     }
 
     val defaultBackground = if (isDark) Color.Black else Color.White
-    val overlayOpacity = if (isDark) 0.7f else 0.3f
     val resolvedColor = config.blurColor ?: defaultBackground
 
-
-    val resolvedGradient = config.gradient ?: Brush.verticalGradient(
+    val fallbackGradient = Brush.verticalGradient(
         if (isDark)
             listOf(Color.Black.copy(alpha = 0.25f), Color.Black.copy(alpha = 0.05f))
         else
             listOf(Color.White.copy(alpha = 0.25f), Color.White.copy(alpha = 0.05f))
     )
+    val resolvedGradient = if (config.gradientColors.isNullOrEmpty()) {
+        fallbackGradient
+    } else {
+        require(config.gradientColors!!.size >= 2) {
+            "❌ You must provide at least 2 colors for the gradient. Received: ${config.gradientColors!!.size}"
+        }
+        Brush.verticalGradient(config.gradientColors!!)
+    }
 
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         // Use native blur effect on Android 12+
         glassBlurAndroid12(
             radius = config.radius,
             backgroundColor = resolvedColor,
-            blurOpacity = overlayOpacity,
             gradient = resolvedGradient
         )
     } else {
@@ -102,7 +112,8 @@ private data class BlurGlassModifier(
     override fun create() = BlurGlassNode(radius, gradient, backgroundColor)
 
     override fun update(node: BlurGlassNode) {
-        val changed = node.radius != radius || node.gradient != gradient || node.backgroundColor != backgroundColor
+        val changed =
+            node.radius != radius || node.gradient != gradient || node.backgroundColor != backgroundColor
         node.radius = radius
         node.gradient = gradient
         node.backgroundColor = backgroundColor
@@ -114,7 +125,8 @@ private data class BlurGlassModifier(
             other.gradient == gradient &&
             other.backgroundColor == backgroundColor
 
-    override fun hashCode() = 31 * radius.hashCode() + gradient.hashCode() + backgroundColor.hashCode()
+    override fun hashCode() =
+        31 * radius.hashCode() + gradient.hashCode() + backgroundColor.hashCode()
 }
 
 /**
@@ -194,7 +206,6 @@ fun Modifier.glassBlurAndroid12(
     radius: Int,
     gradient: Brush,
     backgroundColor: Color,
-    blurOpacity: Float
 ): Modifier {
     val adjustedRadius = (radius * 0.6).coerceIn(0.0, 25.0)
 

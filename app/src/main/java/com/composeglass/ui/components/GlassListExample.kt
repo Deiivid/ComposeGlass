@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,19 +27,13 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun GlassListExample(items: List<String>) {
-    var opacityLevel by remember { mutableStateOf(1f) }
-    var blurRadius by remember { mutableStateOf(1f) }
+    var opacityLevel by remember { mutableFloatStateOf(1f) }
+    var blurRadius by remember { mutableFloatStateOf(1f) }
 
     val animatedOpacity by animateFloatAsState(
         targetValue = opacityLevel,
         animationSpec = tween(durationMillis = 1000, easing = LinearEasing),
         label = "Opacity Animation"
-    )
-
-    val animatedBlurRadius by animateFloatAsState(
-        targetValue = blurRadius,
-        animationSpec = tween(durationMillis = 1000, easing = LinearEasing),
-        label = "Blur Animation"
     )
 
     LaunchedEffect(Unit) {

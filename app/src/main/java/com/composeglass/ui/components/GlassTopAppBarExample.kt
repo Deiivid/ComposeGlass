@@ -24,8 +24,8 @@ fun GlassTopAppBarExample(title: String) {
         modifier = Modifier
             .fillMaxWidth()
             .glassBlur {
-                radius = 30
-                blurColor= Color.Green
+                radius = 10
+                blurColor = Color.Green
             },
     )
 }

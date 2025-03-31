@@ -25,17 +25,22 @@ fun GlassListWithHeaderExample(items: List<String>) {
                 .fillMaxWidth()
                 .height(60.dp)
                 .glassBlur {
-                    radius = 30
-                    blurColor= Color.Red
+                    radius = 10
                 },
             contentAlignment = Alignment.Center
         ) {
-            Text("Glass Header", textAlign = TextAlign.Center)
+            Text("Glass Header", textAlign = TextAlign.Center, modifier = Modifier.glassBlur {
+                radius = 10
+                blurColor = Color.Red
+            })
         }
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(items) { item ->
-                Text(text = item, modifier = Modifier.padding(16.dp))
+                Text(
+                    text = item, modifier = Modifier
+                        .padding(16.dp)
+                        .glassBlur { radius = 4 })
             }
         }
     }
