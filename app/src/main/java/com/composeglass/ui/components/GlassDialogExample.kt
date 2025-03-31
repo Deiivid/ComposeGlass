@@ -9,7 +9,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -29,7 +28,7 @@ fun GlassDialogExample(
                 Box(
                     modifier = Modifier
                         .glassBlur {
-                            radius = 12
+                            radius = 10
                         }
                         .clip(RoundedCornerShape(16.dp))
                         .border(1.dp, Color.White.copy(alpha = 0.3f), RoundedCornerShape(16.dp))
@@ -51,7 +50,7 @@ fun GlassDialogExample(
                         .padding(16.dp)
                 ) {
                     Text(
-                        "Este es el contenido del diálogo",
+                        "This is a dialog",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onBackground
                     )

@@ -19,7 +19,7 @@ fun GlassFloatingActionButton(
         modifier = modifier
             .size(56.dp)
             .glassBlur {
-                radius = 30
+                radius = 10
             },
         contentAlignment = Alignment.Center
     ) {
