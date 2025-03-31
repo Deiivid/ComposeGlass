@@ -1,4 +1,4 @@
-package com.composeglass.modifier.oldVersionBlur
+package com.composeglass.modifier.utils
 
 import android.graphics.Bitmap
 

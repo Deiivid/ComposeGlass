@@ -17,7 +17,7 @@ fun GlassImageExample(painter: Painter) {
         modifier = Modifier
             .size(200.dp)
             .glassBlur {
-                radius = 30
+                radius = 10
             },
 
     )

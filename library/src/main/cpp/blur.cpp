@@ -9,7 +9,7 @@ using namespace composeglass;
 // JNI method to apply a blur effect on a Bitmap using RenderScriptToolkit
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_composeglass_modifier_oldVersionBlur_BlurUtils_nativeBlurBitmap(
+Java_com_composeglass_modifier_utils_BlurUtils_nativeBlurBitmap(
         JNIEnv *env, jclass, jobject bitmap, jint radius
 ) {
     if (radius < 1) return;

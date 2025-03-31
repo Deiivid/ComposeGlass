@@ -17,7 +17,7 @@ import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.invalidateDraw
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.oldVersionBlur.BlurUtils
+import com.composeglass.modifier.utils.BlurUtils
 
 /**
  * Defines the theme mode used by the glass blur effect.
@@ -33,7 +33,7 @@ enum class BlurThemeMode {
  * Can be used as a DSL to customize blur radius, theme mode, color and gradient.
  */
 class BlurGlassConfig {
-    var radius: Int = 20                       // Blur radius
+    var radius: Int = 10                       // Blur radius
     var themeMode: BlurThemeMode = BlurThemeMode.Auto // Theme mode (auto/light/dark)
     var blurColor: Color? = null               // Optional background color for blur
     var gradient: Brush? = null                // Optional gradient overlay
@@ -76,7 +76,6 @@ fun Modifier.glassBlur(
         glassBlurAndroid12(
             radius = config.radius,
             backgroundColor = resolvedColor,
-            blurOpacity = overlayOpacity,
             gradient = resolvedGradient
         )
     } else {
@@ -194,7 +193,6 @@ fun Modifier.glassBlurAndroid12(
     radius: Int,
     gradient: Brush,
     backgroundColor: Color,
-    blurOpacity: Float
 ): Modifier {
     val adjustedRadius = (radius * 0.6).coerceIn(0.0, 25.0)
 
