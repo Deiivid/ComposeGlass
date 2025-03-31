@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,7 +51,7 @@ import com.composeglass.ui.components.GlassTopAppBarExample
 @Composable
 fun GlassScreen() {
     var showDialog by remember { mutableStateOf(false) }
-    val glassItems = listOf("Elemento 1", "Elemento 2", "Elemento 3")
+    val glassItems = listOf("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4", "Elemento 5")
 
     Scaffold(
         topBar = {
@@ -81,27 +82,80 @@ fun GlassScreen() {
                     .fillMaxHeight(0.9f)
                     .verticalScroll(rememberScrollState())
             ) {
-                GlassCardExample()
-                GlassButtonExample()
-
-                GlassImageExample(painterResource(id = com.composeglass.R.drawable.blur_test_image))
-
-                Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
-                    GlassListExample(glassItems)
+                GlassDemoBlock("Example: Card BlurEffect") {
+                    GlassCardExample()
                 }
-                GlassFloatingActionButton(onClick = { showDialog = true }) { Text("FAB") }
-                GlassDialogExample(showDialog = showDialog, onDismiss = { showDialog = false }) {
-                    Text("This is a Glass Dialog")
+
+                GlassDemoBlock("Example: Button BlurEffect") {
+                    GlassButtonExample()
                 }
-                GlassTopAppBarExample(title = "Custom Title")
-                GlassBlurContainerExample()
-                Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
-                    GlassListWithHeaderExample(glassItems)
+
+                GlassDemoBlock("Example: Image BlurEffect") {
+                    GlassImageExample(painterResource(id = com.composeglass.R.drawable.blur_test_image))
+                }
+
+                GlassDemoBlock("Example: List BlurEffect") {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    ) {
+                        GlassListExample(glassItems)
+                    }
+                }
+
+                GlassDemoBlock("Example: FAB") {
+                    GlassFloatingActionButton(onClick = { showDialog = true }) {
+                        Text("FAB")
+                    }
+                    GlassDialogExample(showDialog = showDialog, onDismiss = { showDialog = false })
+                }
+
+                GlassDemoBlock("Example: TopAppBar") {
+                    GlassTopAppBarExample(title = "Custom Title TEST ANDROID")
+                }
+
+                GlassDemoBlock("Example: Blur Container") {
+                    GlassBlurContainerExample()
+                }
+
+                GlassDemoBlock("Example: List with Header") {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    ) {
+                        GlassListWithHeaderExample(glassItems)
+                    }
                 }
             }
         }
     }
 }
+
+@Composable
+fun GlassDemoBlock(
+    title: String,
+    content: @Composable () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .border(1.dp, Color.Gray, RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(12.dp))
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(title, style = MaterialTheme.typography.titleSmall)
+            Spacer(Modifier.height(12.dp))
+            content()
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewGlassScreen() {
