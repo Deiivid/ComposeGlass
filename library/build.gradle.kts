@@ -14,10 +14,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        // 1) Ajustes para compilar código nativo
         externalNativeBuild {
             cmake {
-                // Si quieres pasar flags de C++17, por ejemplo:
                 cppFlags += listOf("-std=c++17")
             }
         }
@@ -27,7 +25,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
+                getDefaultProguardFile("proguard-androida-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
@@ -57,9 +55,9 @@ android {
 publishing {
     publications {
         create<MavenPublication>("release") {
-            groupId = "com.github.Deiivid"
-            artifactId = "ComposeGlass"
-            version = "v1.0.0"
+            groupId = "io.github.deiivid"
+            artifactId = "composeglass"
+            version = "1.0.0"
 
             afterEvaluate {
                 from(components["release"])
