@@ -1,6 +1,6 @@
 kotlin version: 2.0.0
 error message: org.jetbrains.kotlin.backend.common.BackendException: Backend Internal error: Exception during IR lowering
-File being compiled: /Users/dnavarro/AndroidStudioProjects/ComposeGlass/library/src/main/java/com/composeglass/modifier/BlurContainer.kt
+File being compiled: /Users/dnavarro/AndroidStudioProjects/ComposeGlass/library/src/main/java/com/composeGlassMorphism/modifier/BlurContainer.kt
 The root cause java.lang.RuntimeException was thrown at: org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.generate(FunctionCodegen.kt:50)
 	at org.jetbrains.kotlin.backend.common.CodegenUtil.reportBackendException(CodegenUtil.kt:253)
 	at org.jetbrains.kotlin.backend.common.CodegenUtil.reportBackendException$default(CodegenUtil.kt:236)
@@ -51,7 +51,7 @@ The root cause java.lang.RuntimeException was thrown at: org.jetbrains.kotlin.ba
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
 	at java.base/java.lang.Thread.run(Thread.java:833)
 Caused by: java.lang.RuntimeException: Exception while generating code for:
-FUN name:BlurContainer-vRFhKjU visibility:public modality:FINAL <> (modifier:androidx.compose.ui.Modifier, blurRadius:kotlin.Int, blurOpacity:kotlin.Float, blurColor:androidx.compose.ui.graphics.Color, borderColor:androidx.compose.ui.graphics.Color, borderWidth:kotlin.Float, useThemeColors:kotlin.Boolean, themeMode:com.composeglass.modifier.ThemeMode, contentAlignment:androidx.compose.ui.Alignment, content:@[Composable] kotlin.Function0<kotlin.Unit>) returnType:kotlin.Unit
+FUN name:BlurContainer-vRFhKjU visibility:public modality:FINAL <> (modifier:androidx.compose.ui.Modifier, blurRadius:kotlin.Int, blurOpacity:kotlin.Float, blurColor:androidx.compose.ui.graphics.Color, borderColor:androidx.compose.ui.graphics.Color, borderWidth:kotlin.Float, useThemeColors:kotlin.Boolean, themeMode:com.composeGlassMorphism.modifier.ThemeMode, contentAlignment:androidx.compose.ui.Alignment, content:@[Composable] kotlin.Function0<kotlin.Unit>) returnType:kotlin.Unit
   annotations:
     Composable
   VALUE_PARAMETER name:modifier index:0 type:androidx.compose.ui.Modifier
@@ -75,9 +75,9 @@ FUN name:BlurContainer-vRFhKjU visibility:public modality:FINAL <> (modifier:and
   VALUE_PARAMETER name:useThemeColors index:6 type:kotlin.Boolean
     EXPRESSION_BODY
       ERROR_EXPR 'Default Stub' type=kotlin.Boolean
-  VALUE_PARAMETER name:themeMode index:7 type:com.composeglass.modifier.ThemeMode
+  VALUE_PARAMETER name:themeMode index:7 type:com.composeGlassMorphism.modifier.ThemeMode
     EXPRESSION_BODY
-      ERROR_EXPR 'Default Stub' type=com.composeglass.modifier.ThemeMode
+      ERROR_EXPR 'Default Stub' type=com.composeGlassMorphism.modifier.ThemeMode
   VALUE_PARAMETER name:contentAlignment index:8 type:androidx.compose.ui.Alignment
     EXPRESSION_BODY
       ERROR_EXPR 'Default Stub' type=androidx.compose.ui.Alignment
@@ -85,7 +85,7 @@ FUN name:BlurContainer-vRFhKjU visibility:public modality:FINAL <> (modifier:and
   BLOCK_BODY
     CALL 'public final fun Box$default (modifier: androidx.compose.ui.Modifier?, contentAlignment: androidx.compose.ui.Alignment?, propagateMinConstraints: kotlin.Boolean, content: @[Composable] @[ExtensionFunctionType] kotlin.Function1<androidx.compose.foundation.layout.BoxScope, kotlin.Unit>, $mask0: kotlin.Int, $handler: kotlin.Any?): kotlin.Unit [inline] declared in androidx.compose.foundation.layout.BoxKt' type=kotlin.Unit origin=DEFAULT_DISPATCH_CALL
       modifier: CALL 'public final fun fillMaxSize$default (fraction: kotlin.Float, $mask0: kotlin.Int, $handler: kotlin.Any?): androidx.compose.ui.Modifier declared in androidx.compose.foundation.layout.SizeKt' type=androidx.compose.ui.Modifier origin=DEFAULT_DISPATCH_CALL
-        $receiver: GET_VAR 'modifier: androidx.compose.ui.Modifier declared in com.composeglass.modifier.BlurContainerKt.BlurContainer-vRFhKjU' type=androidx.compose.ui.Modifier origin=null
+        $receiver: GET_VAR 'modifier: androidx.compose.ui.Modifier declared in com.composeGlassMorphism.modifier.BlurContainerKt.BlurContainer-vRFhKjU' type=androidx.compose.ui.Modifier origin=null
         fraction: COMPOSITE type=kotlin.Float origin=DEFAULT_VALUE
           CONST Float type=kotlin.Float value=0.0
         $mask0: CONST Int type=kotlin.Int value=1
@@ -96,8 +96,8 @@ FUN name:BlurContainer-vRFhKjU visibility:public modality:FINAL <> (modifier:and
         CONST Boolean type=kotlin.Boolean value=false
       content: BLOCK type=@[ExtensionFunctionType] kotlin.Function1<androidx.compose.foundation.layout.BoxScope, kotlin.Unit> origin=LAMBDA
         COMPOSITE type=kotlin.Unit origin=null
-        FUNCTION_REFERENCE 'private final fun BlurContainer_vRFhKjU$lambda$0 ($content: @[Composable] kotlin.Function0<kotlin.Unit>): kotlin.Unit declared in com.composeglass.modifier.BlurContainerKt' type=@[ExtensionFunctionType] kotlin.Function1<androidx.compose.foundation.layout.BoxScope, kotlin.Unit> origin=INLINE_LAMBDA reflectionTarget=null
-          $content: GET_VAR 'content: @[Composable] kotlin.Function0<kotlin.Unit> declared in com.composeglass.modifier.BlurContainerKt.BlurContainer-vRFhKjU' type=@[Composable] kotlin.Function0<kotlin.Unit> origin=null
+        FUNCTION_REFERENCE 'private final fun BlurContainer_vRFhKjU$lambda$0 ($content: @[Composable] kotlin.Function0<kotlin.Unit>): kotlin.Unit declared in com.composeGlassMorphism.modifier.BlurContainerKt' type=@[ExtensionFunctionType] kotlin.Function1<androidx.compose.foundation.layout.BoxScope, kotlin.Unit> origin=INLINE_LAMBDA reflectionTarget=null
+          $content: GET_VAR 'content: @[Composable] kotlin.Function0<kotlin.Unit> declared in com.composeGlassMorphism.modifier.BlurContainerKt.BlurContainer-vRFhKjU' type=@[Composable] kotlin.Function0<kotlin.Unit> origin=null
       $mask0: CONST Int type=kotlin.Int value=6
       $handler: CONST Null type=kotlin.Any? value=null
 

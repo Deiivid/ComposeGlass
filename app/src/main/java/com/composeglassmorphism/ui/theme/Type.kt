@@ -1,4 +1,4 @@
-package com.composeglass.ui.theme
+package com.composeglassmorphism.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

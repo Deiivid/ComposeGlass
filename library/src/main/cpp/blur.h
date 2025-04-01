@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace composeglass {
+namespace composeGlassMorphism {
 
 /**
  * Applies a StackBlur effect directly on the pixel buffer.

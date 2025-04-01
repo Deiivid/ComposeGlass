@@ -1,4 +1,4 @@
-package com.composeglass.ui.components
+package com.composeglassmorphism.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,21 +15,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.glassBlur
+import com.composeglassmorphism.modifier.glassMorphism
 
 @Composable
-fun GlassListWithHeaderExample(items: List<String>) {
+fun GlassMorphismListWithHeaderExample(items: List<String>) {
     Column {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .glassBlur {
+                .glassMorphism {
                     radius = 10
                 },
             contentAlignment = Alignment.Center
         ) {
-            Text("Glass Header", textAlign = TextAlign.Center, modifier = Modifier.glassBlur {
+            Text("Glass Header", textAlign = TextAlign.Center, modifier = Modifier.glassMorphism {
                 radius = 10
                 blurColor = Color.Red
             })
@@ -40,7 +40,7 @@ fun GlassListWithHeaderExample(items: List<String>) {
                 Text(
                     text = item, modifier = Modifier
                         .padding(16.dp)
-                        .glassBlur { radius = 4 })
+                        .glassMorphism { radius = 4 })
             }
         }
     }

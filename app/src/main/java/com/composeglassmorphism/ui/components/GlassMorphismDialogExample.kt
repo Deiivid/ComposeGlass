@@ -1,4 +1,4 @@
-package com.composeglass.ui.components
+package com.composeglassmorphism.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.glassBlur
+import com.composeglassmorphism.modifier.glassMorphism
 
 @Composable
-fun GlassDialogExample(
+fun GlassMorphismDialogExample(
     showDialog: Boolean,
     onDismiss: () -> Unit,
 ) {
@@ -27,7 +27,7 @@ fun GlassDialogExample(
             title = {
                 Box(
                     modifier = Modifier
-                        .glassBlur {
+                        .glassMorphism {
                             radius = 10
                         }
                         .clip(RoundedCornerShape(16.dp))

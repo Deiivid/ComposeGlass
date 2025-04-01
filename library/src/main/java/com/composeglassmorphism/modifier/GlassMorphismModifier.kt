@@ -1,9 +1,8 @@
-package com.composeglass.modifier
+package com.composeglassmorphism.modifier
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
@@ -18,14 +17,14 @@ import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.invalidateDraw
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.utils.BlurUtils
+import com.composeglassmorphism.modifier.utils.GlassMorphismUtils
 
 /**
- * Defines the theme mode used by the glass blur effect.
+ * Defines the theme mode used by the glass morphism theme effect.
  * - Auto: adapts to the system theme
  * - Light / Dark: forces the blur style regardless of the system theme
  */
-enum class BlurThemeMode {
+enum class GlassMorphismThemeMode {
     Auto, Light, Dark
 }
 
@@ -35,7 +34,7 @@ enum class BlurThemeMode {
  */
 class BlurGlassConfig {
     var radius: Int = 10                       // Blur radius
-    var themeMode: BlurThemeMode = BlurThemeMode.Auto // Theme mode (auto/light/dark)
+    var themeMode: GlassMorphismThemeMode = GlassMorphismThemeMode.Auto // Theme mode (auto/light/dark)
     var blurColor: Color? = null               // Optional background color for blur
     var gradientColors: List<Color>? = null  // Optional gradient overlay
 }
@@ -49,7 +48,7 @@ class BlurGlassConfig {
  * @return Modifier with the applied blur and gradient effect
  */
 @Composable
-fun Modifier.glassBlur(
+fun Modifier.glassMorphism(
     configBlock: BlurGlassConfig.() -> Unit
 ): Modifier {
     val config = BlurGlassConfig().apply(configBlock)
@@ -59,9 +58,9 @@ fun Modifier.glassBlur(
     }
 
     val isDark = when (config.themeMode) {
-        BlurThemeMode.Light -> false
-        BlurThemeMode.Dark -> true
-        BlurThemeMode.Auto -> isSystemInDarkTheme()
+        GlassMorphismThemeMode.Light -> false
+        GlassMorphismThemeMode.Dark -> true
+        GlassMorphismThemeMode.Auto -> isSystemInDarkTheme()
     }
 
     val defaultBackground = if (isDark) Color.Black else Color.White
@@ -84,14 +83,14 @@ fun Modifier.glassBlur(
 
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         // Use native blur effect on Android 12+
-        glassBlurAndroid12(
+        glassMorphismAndroid12(
             radius = config.radius,
             backgroundColor = resolvedColor,
             gradient = resolvedGradient
         )
     } else {
         // Use custom blur effect on Android <12
-        glassBlurAndroid11(
+        glassMorphismAndroid11(
             radius = config.radius,
             backgroundColor = resolvedColor,
             gradient = resolvedGradient
@@ -103,15 +102,15 @@ fun Modifier.glassBlur(
  * Custom blur fallback for Android <12 using JNI-based blur engine.
  */
 @SuppressLint("ModifierNodeInspectableProperties")
-private data class BlurGlassModifier(
+private data class GlassMorphismModifier(
     val radius: Int,
     val gradient: Brush,
     val backgroundColor: Color
-) : ModifierNodeElement<BlurGlassNode>() {
+) : ModifierNodeElement<GlassMorphismsNode>() {
 
-    override fun create() = BlurGlassNode(radius, gradient, backgroundColor)
+    override fun create() = GlassMorphismsNode(radius, gradient, backgroundColor)
 
-    override fun update(node: BlurGlassNode) {
+    override fun update(node: GlassMorphismsNode) {
         val changed =
             node.radius != radius || node.gradient != gradient || node.backgroundColor != backgroundColor
         node.radius = radius
@@ -120,7 +119,7 @@ private data class BlurGlassModifier(
         if (changed) node.clearCache()
     }
 
-    override fun equals(other: Any?) = other is BlurGlassModifier &&
+    override fun equals(other: Any?) = other is GlassMorphismModifier &&
             other.radius == radius &&
             other.gradient == gradient &&
             other.backgroundColor == backgroundColor
@@ -132,7 +131,7 @@ private data class BlurGlassModifier(
 /**
  * Modifier node that draws the blurred content using native bitmap processing.
  */
-private class BlurGlassNode(
+private class GlassMorphismsNode(
     var radius: Int,
     var gradient: Brush,
     var backgroundColor: Color
@@ -186,7 +185,7 @@ private class BlurGlassNode(
      */
     private fun applyNativeBlur(bitmap: ImageBitmap, radius: Int): ImageBitmap {
         val androidBitmap = bitmap.asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, true)
-        BlurUtils.nativeBlurBitmap(androidBitmap, radius)
+        GlassMorphismUtils.nativeGlassMorphismBitmap(androidBitmap, radius)
         return androidBitmap.asImageBitmap()
     }
 
@@ -200,9 +199,9 @@ private class BlurGlassNode(
 }
 
 /**
- * Native blur implementation using Android 12+ RenderEffect.
+ * Native GlassMorphism implementation using Android 12+ RenderEffect.
  */
-fun Modifier.glassBlurAndroid12(
+fun Modifier.glassMorphismAndroid12(
     radius: Int,
     gradient: Brush,
     backgroundColor: Color,
@@ -219,15 +218,15 @@ fun Modifier.glassBlurAndroid12(
 }
 
 /**
- * Fallback implementation for Android <12 using native C++ blur.
+ * Fallback implementation for Android <12 using native C++ GlassMorphism.
  */
-fun Modifier.glassBlurAndroid11(
+fun Modifier.glassMorphismAndroid11(
     radius: Int,
     backgroundColor: Color,
     gradient: Brush
 ): Modifier {
     return this.then(
-        BlurGlassModifier(
+        GlassMorphismModifier(
             radius = radius,
             gradient = gradient,
             backgroundColor = backgroundColor

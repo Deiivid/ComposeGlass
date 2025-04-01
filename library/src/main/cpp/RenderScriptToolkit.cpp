@@ -2,7 +2,7 @@
 #include "blur.h"                 // Include the declaration of the stackBlur function
 #include <cstring>                // Include for std::memcpy
 
-namespace composeglass {
+namespace composeGlassMorphism {
 
     /**
      * Applies a blur effect to the input buffer and writes the result to the output buffer.

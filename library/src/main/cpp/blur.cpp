@@ -4,12 +4,12 @@
 #include "blur.h"
 #include <vector>
 
-using namespace composeglass;
+using namespace composeGlassMorphism;
 
 // JNI method to apply a blur effect on a Bitmap using RenderScriptToolkit
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_composeglass_modifier_utils_BlurUtils_nativeBlurBitmap(
+Java_com_composeglass_modifier_utils_GlassMorphismUtils_nativeGlassMorphismBitmap(
         JNIEnv *env, jclass, jobject bitmap, jint radius
 ) {
     if (radius < 1) return;
@@ -39,7 +39,7 @@ Java_com_composeglass_modifier_utils_BlurUtils_nativeBlurBitmap(
     AndroidBitmap_unlockPixels(env, bitmap);
 }
 
-namespace composeglass {
+namespace composeGlassMorphism {
 
     // Stack blur algorithm (fast approximation of Gaussian blur)
     void stackBlur(uint8_t* pix, int w, int h, int radius) {

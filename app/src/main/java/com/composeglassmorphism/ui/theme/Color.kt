@@ -1,4 +1,4 @@
-package com.composeglass.ui.theme
+package com.composeglassmorphism.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

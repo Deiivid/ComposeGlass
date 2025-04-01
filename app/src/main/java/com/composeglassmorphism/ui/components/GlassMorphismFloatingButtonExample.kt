@@ -1,4 +1,4 @@
-package com.composeglass.ui.components
+package com.composeglassmorphism.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.glassBlur
+import com.composeglassmorphism.modifier.glassMorphism
 
 @Composable
-fun GlassFloatingActionButton(
+fun GlassMorphismFloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
@@ -18,7 +18,7 @@ fun GlassFloatingActionButton(
     Box(
         modifier = modifier
             .size(56.dp)
-            .glassBlur {
+            .glassMorphism {
                 radius = 10
             },
         contentAlignment = Alignment.Center
