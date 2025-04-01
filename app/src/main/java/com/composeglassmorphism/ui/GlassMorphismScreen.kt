@@ -32,7 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.composeglass.R
+import com.composeglassmorphism.R
 import com.composeglassmorphism.ui.components.GlassMorphismButtonExample
 import com.composeglassmorphism.ui.components.GlassMorphismCardExample
 import com.composeglassmorphism.ui.components.GlassMorphismContainerExample
