@@ -75,7 +75,15 @@ If you like this library, don't forget to ⭐ it on GitHub!
 
 This project is licensed under the MIT License.
 
-📷 Screenshots
+## 📸 Demo Screenshots
+
+### 🌞 Light Mode
+
+<img src="https://github.com/deiivid/ComposeGlassMorphism/assets/tuimagen1.png" width="300"/>
+
+### 🌚 Dark Mode
+
+<img src="https://github.com/deiivid/ComposeGlassMorphism/assets/tuimagen2.png" width="300"/>
 
 
 
