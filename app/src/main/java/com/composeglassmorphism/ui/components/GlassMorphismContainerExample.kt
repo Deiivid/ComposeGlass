@@ -1,4 +1,4 @@
-package com.composeglass.ui.components
+package com.composeglassmorphism.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,13 +18,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.BlurThemeMode
-import com.composeglass.modifier.glassBlur
+import com.composeglassmorphism.modifier.GlassMorphismThemeMode
+import com.composeglassmorphism.modifier.glassMorphism
 
 @Composable
-fun GlassBlurContainerExample() {
+fun GlassMorphismContainerExample() {
 
-    var buttonThemeMode by remember { mutableStateOf(BlurThemeMode.Auto) }
+    var buttonThemeMode by remember { mutableStateOf(GlassMorphismThemeMode.Auto) }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -34,7 +34,7 @@ fun GlassBlurContainerExample() {
             modifier = Modifier
                 .size(200.dp)
                 .padding(16.dp)
-                .glassBlur {
+                .glassMorphism {
                     radius = 5
                     themeMode = buttonThemeMode
                 },
@@ -48,9 +48,9 @@ fun GlassBlurContainerExample() {
 
         Button(onClick = {
             buttonThemeMode = when (buttonThemeMode) {
-                BlurThemeMode.Auto -> BlurThemeMode.Dark
-                BlurThemeMode.Dark -> BlurThemeMode.Light
-                BlurThemeMode.Light -> BlurThemeMode.Auto
+                GlassMorphismThemeMode.Auto -> GlassMorphismThemeMode.Dark
+                GlassMorphismThemeMode.Dark -> GlassMorphismThemeMode.Light
+                GlassMorphismThemeMode.Light -> GlassMorphismThemeMode.Auto
             }
         }) {
             Text("Change Theme Mode: $buttonThemeMode")

@@ -1,4 +1,4 @@
-package com.composeglass.ui.components
+package com.composeglassmorphism.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -8,11 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import com.composeglass.modifier.glassBlur
+import com.composeglassmorphism.modifier.glassMorphism
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GlassTopAppBarExample(title: String) {
+fun GlassMorphismTopAppBarExample(title: String) {
     TopAppBar(
         title = {
             Text(
@@ -23,7 +23,7 @@ fun GlassTopAppBarExample(title: String) {
         },
         modifier = Modifier
             .fillMaxWidth()
-            .glassBlur {
+            .glassMorphism {
                 radius = 10
                 blurColor = Color.Green
             },

@@ -1,9 +1,8 @@
-package com.composeglass.ui
+package com.composeglassmorphism.ui
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -28,28 +27,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.BlurThemeMode
-import com.composeglass.modifier.glassBlur
-import com.composeglass.ui.components.GlassBlurContainerExample
-import com.composeglass.ui.components.GlassButtonExample
-import com.composeglass.ui.components.GlassCardExample
-import com.composeglass.ui.components.GlassDialogExample
-import com.composeglass.ui.components.GlassFloatingActionButton
-import com.composeglass.ui.components.GlassImageExample
-import com.composeglass.ui.components.GlassListExample
-import com.composeglass.ui.components.GlassListWithHeaderExample
-import com.composeglass.ui.components.GlassTopAppBarExample
+import com.composeglass.R
+import com.composeglassmorphism.ui.components.GlassMorphismButtonExample
+import com.composeglassmorphism.ui.components.GlassMorphismCardExample
+import com.composeglassmorphism.ui.components.GlassMorphismContainerExample
+import com.composeglassmorphism.ui.components.GlassMorphismDialogExample
+import com.composeglassmorphism.ui.components.GlassMorphismFloatingActionButton
+import com.composeglassmorphism.ui.components.GlassMorphismImageExample
+import com.composeglassmorphism.ui.components.GlassMorphismListExample
+import com.composeglassmorphism.ui.components.GlassMorphismListWithHeaderExample
+import com.composeglassmorphism.ui.components.GlassMorphismTopAppBarExample
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GlassScreen() {
+fun GlassMorphismScreen() {
     var showDialog by remember { mutableStateOf(false) }
     val glassItems = listOf("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4", "Elemento 5")
 
@@ -83,15 +79,15 @@ fun GlassScreen() {
                     .verticalScroll(rememberScrollState())
             ) {
                 GlassDemoBlock("Example: Card BlurEffect") {
-                    GlassCardExample()
+                    GlassMorphismCardExample()
                 }
 
                 GlassDemoBlock("Example: Button BlurEffect") {
-                    GlassButtonExample()
+                    GlassMorphismButtonExample()
                 }
 
                 GlassDemoBlock("Example: Image BlurEffect") {
-                    GlassImageExample(painterResource(id = com.composeglass.R.drawable.blur_test_image))
+                    GlassMorphismImageExample(painterResource(id = R.drawable.blur_test_image))
                 }
 
                 GlassDemoBlock("Example: List BlurEffect") {
@@ -100,23 +96,25 @@ fun GlassScreen() {
                             .fillMaxWidth()
                             .height(200.dp)
                     ) {
-                        GlassListExample(glassItems)
+                        GlassMorphismListExample(glassItems)
                     }
                 }
 
                 GlassDemoBlock("Example: FAB") {
-                    GlassFloatingActionButton(onClick = { showDialog = true }) {
+                    GlassMorphismFloatingActionButton(onClick = { showDialog = true }) {
                         Text("FAB")
                     }
-                    GlassDialogExample(showDialog = showDialog, onDismiss = { showDialog = false })
+                    GlassMorphismDialogExample(
+                        showDialog = showDialog,
+                        onDismiss = { showDialog = false })
                 }
 
                 GlassDemoBlock("Example: TopAppBar") {
-                    GlassTopAppBarExample(title = "Custom Title TEST ANDROID")
+                    GlassMorphismTopAppBarExample(title = "Custom Title TEST ANDROID")
                 }
 
                 GlassDemoBlock("Example: Blur Container") {
-                    GlassBlurContainerExample()
+                    GlassMorphismContainerExample()
                 }
 
                 GlassDemoBlock("Example: List with Header") {
@@ -125,7 +123,7 @@ fun GlassScreen() {
                             .fillMaxWidth()
                             .height(200.dp)
                     ) {
-                        GlassListWithHeaderExample(glassItems)
+                        GlassMorphismListWithHeaderExample(glassItems)
                     }
                 }
             }
@@ -159,5 +157,5 @@ fun GlassDemoBlock(
 @Preview(showBackground = true)
 @Composable
 fun PreviewGlassScreen() {
-    GlassScreen()
+    GlassMorphismScreen()
 }

@@ -1,9 +1,9 @@
 # Specify the minimum required CMake version
 cmake_minimum_required(VERSION 3.4.1)
 
-# Define a shared native library called 'glassblur' and add the source file 'blur.cpp'
+# Define a shared native library called 'GlassMorphism' and add the source file 'blur.cpp'
 add_library(
-        glassblur
+        GlassMorphism
         SHARED
         blur.cpp
 )
@@ -21,14 +21,14 @@ find_library(
 )
 
 # Add additional source files to the target (in this case, RenderScriptToolkit.cpp)
-target_sources(glassblur
+target_sources(GlassMorphism
         PRIVATE
         RenderScriptToolkit.cpp
 )
 
 # Link the glassblur library with the required system libraries
 target_link_libraries(
-        glassblur
+        GlassMorphism
         ${log-lib}
         ${jnigraphics-lib}
 )

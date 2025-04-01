@@ -1,4 +1,4 @@
-package com.composeglass
+package com.composeglassmorphism
 
 import org.junit.Test
 

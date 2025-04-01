@@ -4,7 +4,7 @@
 #include <cstdint>   // For fixed-width integer types (e.g., uint8_t)
 #include <cstddef>   // For size_t
 
-namespace composeglass {
+namespace composeGlassMorphism {
 
     /**
      * Struct to define a restricted region within an image.
@@ -40,6 +40,6 @@ namespace composeglass {
                   const Restriction* restriction = nullptr);
     };
 
-} // namespace composeglass
+} // namespace composeGlassMorphism
 
 #endif // COMPOSEGLASS_RENDERSCRIPTTOOLKIT_H

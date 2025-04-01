@@ -1,4 +1,4 @@
-package com.composeglass.ui.theme
+package com.composeglassmorphism.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

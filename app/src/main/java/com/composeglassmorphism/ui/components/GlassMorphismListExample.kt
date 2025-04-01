@@ -1,4 +1,4 @@
-package com.composeglass.ui.components
+package com.composeglassmorphism.ui.components
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -22,11 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.composeglass.modifier.glassBlur
+import com.composeglassmorphism.modifier.glassMorphism
 import kotlinx.coroutines.delay
 
 @Composable
-fun GlassListExample(items: List<String>) {
+fun GlassMorphismListExample(items: List<String>) {
     var opacityLevel by remember { mutableFloatStateOf(1f) }
     var blurRadius by remember { mutableFloatStateOf(1f) }
 
@@ -49,7 +49,7 @@ fun GlassListExample(items: List<String>) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .glassBlur {
+            .glassMorphism {
                 radius = 5
             },
 
