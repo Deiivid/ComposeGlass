@@ -1,6 +1,9 @@
 # Specify the minimum required CMake version
 cmake_minimum_required(VERSION 3.4.1)
 
+# Establecer el estándar de C++
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Define a shared native library called 'GlassMorphism' and add the source file 'blur.cpp'
 add_library(
         GlassMorphism
