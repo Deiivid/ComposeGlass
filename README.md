@@ -68,7 +68,7 @@ Submit an issue to report bugs or request features
 
 Open a pull request to add enhancements
 
-## 📌License
+## 📌 License
 
 ComposeGlassmorphism is released under the MIT License.
 
@@ -90,12 +90,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-✨ Happy coding! 🚀
-## Contributing
-
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 [![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
 
-
+✨ Happy coding! 🚀
 
