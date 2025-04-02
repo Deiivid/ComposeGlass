@@ -1,3 +1,30 @@
+# Foobar
+
+Foobar is a Python library for dealing with word pluralization.
+
+## Installation
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+
+```bash
+pip install foobar
+```
+
+## Usage
+
+```kotlin
+import foobar
+
+# returns 'words'
+foobar.pluralize('word')
+
+# returns 'geese'
+foobar.pluralize('goose')
+
+# returns 'phenomenon'
+foobar.singularize('phenomena')
+```
+
 🌥️ ComposeGlass
 
 ComposeGlass is a Jetpack Compose library designed to easily add a beautiful, performant, and customizable Glassmorphism blur effect to your Android apps, supporting Android 12+ natively and providing a custom blur solution for older Android versions.
@@ -58,10 +85,11 @@ Modifier.glassMorphism {
 🎨 Blur Background Color
 
 Set a base color for the blur:
-
+```kotlin
 Modifier.glassMorphism {
     blurColor = Color.Red.copy(alpha = 0.2f)
 }
+```
 
 🌙 Dark Mode & 🌞 Light Mode Examples
 
@@ -127,3 +155,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ✨ Happy coding! 🚀
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
