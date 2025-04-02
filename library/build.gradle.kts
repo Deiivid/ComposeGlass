@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("maven-publish")
+    id("signing")
 }
 
 android {
@@ -37,103 +38,57 @@ android {
 
     externalNativeBuild {
         cmake {
-            path ("src/main/cpp/CMakeLists.txt")
+            path("src/main/cpp/CMakeLists.txt")
         }
     }
     buildFeatures {
         compose = true
     }
-
-
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            groupId = "io.github.deiivid"
+            artifactId = "composeglassmorphism"
+            version = "1.0.0"
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                groupId = "io.github.deiivid"
-                artifactId = "composeglassmorphism"
-                version = "1.0.0"
+            afterEvaluate {
+                from(components["release"])
+            }
 
-                from(components["release"]) // <- aquí petaba si no estaba en afterEvaluate
 
-                pom {
-                    name.set("ComposeGlass")
-                    description.set("A Jetpack Compose library for applying Glassmorphism blur effects")
-                    url.set("https://github.com/Deiivid/Glassmorphism-Compose")
-
-                    licenses {
-                        license {
-                            name.set("Apache License 2.0")
-                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id.set("deiivid")
-                            name.set("David Navarro")
-                            email.set("davidnavarrom3@gmail.com")
-                        }
-                    }
-
-                    scm {
-                        connection.set("scm:git:git://github.com/Deiivid/Glassmorphism-Compose.git")
-                        developerConnection.set("scm:git:ssh://github.com:Deiivid/Glassmorphism-Compose.git")
-                        url.set("https://github.com/Deiivid/Glassmorphism-Compose")
+            pom {
+                name.set("ComposeGlassMorphism")
+                description.set("Glassmorphism Modifier for Jetpack Compose")
+                url.set("https://github.com/deiivid/ComposeGlassMorphism")
+                licenses {
+                    license {
+                        name.set("MIT")
+                        url.set("https://opensource.org/licenses/MIT")
                     }
                 }
-            }
-        }
-
-        repositories {
-            maven {
-                name = "sonatype"
-                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = findProperty("mavenCentralUsername") as String
-                    password = findProperty("mavenCentralPassword") as String
+                developers {
+                    developer {
+                        id.set("deiivid")
+                        name.set("David Navarro")
+                        email.set("davidnavarrom3@gmail.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/deiivid/ComposeGlassMorphism.git")
+                    developerConnection.set("scm:git:ssh://github.com:deiivid/ComposeGlassMorphism.git")
+                    url.set("https://github.com/deiivid/ComposeGlassMorphism")
                 }
             }
         }
     }
-}
-val libVersion = "1.0.0"
-val artifactId = "composeglassmorphism"
 
-
-tasks.register<Zip>("createMavenZip") {
-    group = "publishing"
-    description = "Genera un ZIP con el .aar, .pom y firmas para subir manualmente a Maven Central"
-
-    archiveFileName.set("$artifactId-$libVersion.zip")
-    destinationDirectory.set(layout.buildDirectory.dir("release-zip"))
-
-    // Ruta del AAR renombrado
-    val aarDir = layout.buildDirectory.dir("outputs/aar").get().asFile
-    val aarFile = aarDir.listFiles()?.firstOrNull { it.name.endsWith("-release.aar") }
-        ?: throw GradleException("No se encontró el AAR release en ${aarDir.path}")
-
-    // Renombrar y añadir el .aar
-    from(aarFile.parentFile) {
-        include(aarFile.name)
-        rename(aarFile.name, "$artifactId-$libVersion.aar")
-    }
-
-    // Incluir .pom y firmas desde publications/release
-    val publicationDir = layout.buildDirectory.dir("publications/release").get().asFile
-    val expectedPom = File(publicationDir, "$artifactId-$libVersion.pom")
-    if (!expectedPom.exists()) {
-        throw GradleException("No se encontró el archivo .pom generado en ${publicationDir.path}")
-    }
-
-    from(publicationDir) {
-        include("$artifactId-$libVersion.pom")
-        include("$artifactId-$libVersion.pom.asc")
-        include("$artifactId-$libVersion.aar.asc")
-        include("*.md5")
-        include("*.sha1")
+    repositories {
+        maven {
+            name = "LocalDir"
+            url = uri("$buildDir/../maven-release")
+        }
     }
 }
 
