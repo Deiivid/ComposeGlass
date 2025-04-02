@@ -3,13 +3,13 @@
 
 ComposeGlassmorphism is a Jetpack Compose library designed to easily add a beautiful, performant, and customizable Glassmorphism blur effect to your Android apps, supporting Android 12+ natively and providing a custom blur solution for older Android versions.
 
-🚀 Installation
+🚀 ##Installation
 
 Add this dependency to your module's build.gradle:
 
 implementation("com.davidnavarro.composeglass:composeglass:1.0.0")
 
-✨ How to Use
+✨ ##How to Use
 
 Applying the glassmorphism blur effect is straightforward:
 
@@ -24,48 +24,26 @@ Box(
 }
 ```
 
-🎨 Customization Options
+🎨 ##Customization Options
 
 ComposeGlassmorphism allows you to finely tune the blur effect:
 
-✅ Blur Radius
 
-Controls how strong the blur effect is:
+#### Get all items
 
-```kotlin
-Modifier.glassMorphism {
-    radius = 15 // Range: 1 - 25
-}
+```http
+  GET /api/items
 ```
 
-🎭 Theme Modes
+| Parameter | Type     | Implementation     | Description                |
+| :-------- | :------- | :----------------- | :------------------------- |
+| 📻 `Radius` | `Int` | `Modifier.glassMorphism {radius = 10}`|  **Required**. 0-10 |
+| 🎭 `Theme` | `GlassMorphismThemeMode` | `Modifier.glassMorphism {themeMode = GlassMorphismThemeMode.Dark}` | **Not Required**. Auto, Light, Dark |
+| 🎨 `blurColor` | `Color?`  | `Modifier.glassMorphism {gradientColors = listOf(Color.Blue, Color.Green)}` |  **Not Required**. |
+| 🌈`gradientColors` | `List<Color>?`  | `Modifier.glassMorphism {blurColor = Color.Red.copy(alpha = 0.2f)}` |  **Not Required**. |
 
-Adjust the blur effect for light or dark themes:
-```kotlin
-Modifier.glassMorphism {
-    themeMode = GlassMorphismThemeMode.Dark // Auto | Light | Dark
-}
-```
 
-🌈 Gradient Colors
-
-Customize your blur effect with gradients:
-```kotlin
-Modifier.glassMorphism {
-    gradientColors = listOf(Color.Blue, Color.Green)
-}
-```
-
-🎨 Blur Background Color
-
-Set a base color for the blur:
-```kotlin
-Modifier.glassMorphism {
-    blurColor = Color.Red.copy(alpha = 0.2f)
-}
-```
-
-📸 ScreenShoots
+📸 ##ScreenShoots
 ![Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/androidBlur.jpg)
 
 
@@ -78,7 +56,7 @@ Modifier.glassMorphism {
 
 
 
-📱 Supported Versions
+📱 ##Supported Versions
 
 ComposeGlassmorphism supports all modern Android versions:
 
@@ -86,7 +64,7 @@ ComposeGlassmorphism supports all modern Android versions:
 
 ✅ Android 11 and lower (custom native blur via JNI/C++)
 
-🛠 Contributing
+🛠 ##Contributing
 
 Contributions and improvements are welcome! Feel free to:
 
@@ -94,12 +72,11 @@ Submit an issue to report bugs or request features
 
 Open a pull request to add enhancements
 
-📌 License
+📌 ##License
 
 ComposeGlassmorphism is released under the MIT License.
 
 MIT License
-
 Copyright (c) 2025 David Navarro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -120,11 +97,9 @@ SOFTWARE.
 ✨ Happy coding! 🚀
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
 
-Please make sure to update tests as appropriate.
 
-## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
