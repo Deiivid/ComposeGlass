@@ -66,35 +66,15 @@ Modifier.glassMorphism {
 ```
 
 📸 ScreenShoots
+![Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/Android11-13blur.jpg)
 
-Android 11📱
-![Light Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android11light.png)
-🌙 Dark Mode Example
-![Light Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android11light.png)
-🌞 Light Mode Example
-![Dark Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android11_darkmode.png)
-
-Android 13📱
-
-🌙 Dark Mode Example
-![Dark Mode Example](https://raw.githubusercontent.com/Deiivid/Glassmorphism-Compose/master/screenshoots/android13_dark1.png)
-![Dark Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_dark2.png)
-
-🌞 Light Mode Example
-![Light Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_light.png)
-![Light Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_light2.png)
 
 ## 🎨 Blur Color Background Example
 
 ![Blur Color Background](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_blur_color_background.png)
 
 ## 🌈 Gradient Example
-
-🌙 Dark Mode Example
-![Gradient Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_dark_gradients.png)
-
-🌞 Light Mode Example
-![Gradient Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_light_gradients.png)
+![Gradient Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/Gradients%20Light%20Dark.jpg)
 
 
 
