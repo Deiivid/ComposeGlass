@@ -74,12 +74,7 @@ Modifier.glassMorphism {
 ![Blur Color Background](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_blur_color_background.png)
 
 ## 🌈 Gradient Example
-
-🌙 Dark Mode Example
-![Gradient Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_dark_gradients.png)
-
-🌞 Light Mode Example
-![Gradient Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_light_gradients.png)
+![Gradient Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/Gradients%20Light%20Dark.jpg)
 
 
 
