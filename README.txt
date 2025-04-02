@@ -93,7 +93,6 @@ Modifier.glassMorphism {
 
 📸 ScreenShoots
 
-## Theme Example
 Android 11📱
 ![Light Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android11light.png)
 🌙 Dark Mode Example
