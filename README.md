@@ -1,15 +1,15 @@
 
-🌥️ ComposeGlassmorphism
+ComposeGlassmorphism
 
 ComposeGlassmorphism is a Jetpack Compose library designed to easily add a beautiful, performant, and customizable Glassmorphism blur effect to your Android apps, supporting Android 12+ natively and providing a custom blur solution for older Android versions.
 
-🚀 ## Installation
+## 🚀 Installation 🚀
 
 Add this dependency to your module's build.gradle:
 
 implementation("com.davidnavarro.composeglass:composeglass:1.0.0")
 
-✨ ## How to Use
+## ✨How to Use
 
 Applying the glassmorphism blur effect is straightforward:
 
@@ -24,7 +24,7 @@ Box(
 }
 ```
 
-🎨 ##Customization Options
+## 🎨 Customization Options🎨
 
 ComposeGlassmorphism allows you to finely tune the blur effect:
 
@@ -39,7 +39,7 @@ ComposeGlassmorphism allows you to finely tune the blur effect:
 | 🌈`gradientColors` | `List<Color>?`  | `Modifier.glassMorphism {blurColor = Color.Red.copy(alpha = 0.2f)}` |  **Not Required**. |
 
 
-📸 ## ScreenShoots
+## 📸 ScreenShoots 📸
 ![Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/androidBlur.jpg)
 
 
@@ -51,16 +51,16 @@ ComposeGlassmorphism allows you to finely tune the blur effect:
 ![Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/androidGradients.png)
 
 
+## 📱Supported Versions📱
 
-📱 ## Supported Versions
+ComposeGlassmorphism supports Android SDK Versions `35` to `28`:
 
-ComposeGlassmorphism supports all modern Android versions:
+`Android 12+ (uses native RenderEffect API)`
 
-✅ Android 12+ (uses native RenderEffect API)
+`Android 11 and lower (custom native blur via JNI/C++)`
 
-✅ Android 11 and lower (custom native blur via JNI/C++)
 
-🛠 ## Contributing
+## 🛠 Contributing
 
 Contributions and improvements are welcome! Feel free to:
 
@@ -68,7 +68,7 @@ Submit an issue to report bugs or request features
 
 Open a pull request to add enhancements
 
-📌 ## License
+## 📌License
 
 ComposeGlassmorphism is released under the MIT License.
 
