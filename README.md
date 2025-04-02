@@ -29,11 +29,7 @@ Box(
 ComposeGlassmorphism allows you to finely tune the blur effect:
 
 
-#### Get all items
-
-```http
-  GET /api/items
-```
+#### Parameters
 
 | Parameter | Type     | Implementation     | Description                |
 | :-------- | :------- | :----------------- | :------------------------- |
