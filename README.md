@@ -17,7 +17,9 @@ Applying the glassmorphism blur effect is straightforward:
 Box(
     modifier = Modifier.glassMorphism {
         radius = 10
+        themeMode = GlassMorphismThemeMode.Dark
         gradientColors = listOf(Color.Cyan, Color.Magenta)
+        blurColor=Color.Cyan
     }
 ) {
     Text("Beautiful Glass Blur!")
