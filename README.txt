@@ -1,90 +1,123 @@
-CrystalCompose ✨ - Glassmorphism Effects for Jetpack Compose
+🌥️ ComposeGlassmorphism
 
-🚀 Introduction
+Glassmorphism is a Jetpack Compose library designed to easily add a beautiful, performant, and customizable Glassmorphism blur effect to your Android apps, supporting Android 12+ natively and providing a custom blur solution for older Android versions.
 
-CrystalCompose is a UI library for Jetpack Compose that allows you to create Glassmorphism effects easily and elegantly. Add cards, buttons, and layouts with blurred and semi-transparent backgrounds using just a few lines of code. Perfect for modern and stylish interfaces.
+🚀 Installation
 
-🎨 Features
+Add this dependency to your module's build.gradle:
 
-✅ Glassmorphism effect with blur and transparency.✅ Easy to integrate into any Jetpack Compose project.✅ Support for dark and light themes.✅ Highly customizable (colors, opacity, blur radius).✅ Compatible with Material 3 and any custom theme.
+implementation("com.davidnavarro.composeglass:composeglass:1.0.0")
 
-📦 Installation
+✨ How to Use
 
-CrystalCompose is available via JitPack. To add it to your project:
+Applying the glassmorphism blur effect is straightforward:
 
-1️⃣ Add JitPack to your settings.gradle.kts:
-
-pluginManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven("https://jitpack.io")
+Box(
+    modifier = Modifier.glassMorphism {
+        radius = 10
+        gradientColors = listOf(Color.Cyan, Color.Magenta)
     }
-}
-
-2️⃣ Add the dependency in your build.gradle.kts:
-
-dependencies {
-    implementation("com.github.your-username:CrystalCompose:1.0.0")
-}
-
-🎭 Basic Usage
-
-📌 Example: Creating a Glassmorphism effect card
-
-@Composable
-fun GlassCardExample() {
-    GlassCard(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-        Text("Hello, CrystalCompose!", style = MaterialTheme.typography.bodyLarge, color = Color.White)
-    }
-}
-
-📌 Customizing the effects
-
-GlassCard(
-    blurRadius = 15.dp, // Blur intensity
-    backgroundColor = Color.White.copy(alpha = 0.2f), // Background transparency
-    borderStroke = BorderStroke(1.dp, Color.White.copy(alpha = 0.4f)) // Subtle border
 ) {
-    Text("Text on a Glassmorphism card", color = Color.White)
+    Text("Beautiful Glass Blur!")
 }
 
-📜 Full Documentation
+🎨 Customization Options
 
-You can check all components and examples in the official documentation.
+ComposeGlass allows you to finely tune the blur effect:
 
-🛠️ Contributing
+✅ Blur Radius
 
-We would love for you to contribute to improving CrystalCompose! 🚀
+Controls how strong the blur effect is:
 
-Fork the repository.
+Modifier.glassMorphism {
+    radius = 15 // Range: 1 - 25
+}
 
-Create a new branch (feature-new).
+🎭 Theme Modes
 
-Make your changes and commit them.
+Adjust the blur effect for light or dark themes:
 
-Open a Pull Request.
+Modifier.glassMorphism {
+    themeMode = GlassMorphismThemeMode.Dark // Auto | Light | Dark
+}
 
-🏆 Author
+🌈 Gradient Colors
 
-Created with ❤️ by David.📧 Contact: [Your Email]🐦 Twitter: [Your Username]
+Customize your blur effect with gradients:
 
-If you like this library, don't forget to ⭐ it on GitHub!
+Modifier.glassMorphism {
+    gradientColors = listOf(Color.Blue, Color.Green)
+}
 
-📜 License
+🎨 Blur Background Color
 
-This project is licensed under the MIT License.
+Set a base color for the blur:
 
-## 📸 Demo Screenshots
+Modifier.glassMorphism {
+    blurColor = Color.Red.copy(alpha = 0.2f)
+}
 
-### 🌞 Light Mode
+🌙 Dark Mode & 🌞 Light Mode Examples
 
-<img src="https://github.com/deiivid/ComposeGlassMorphism/assets/tuimagen1.png" width="300"/>
+Dark Mode
 
-### 🌚 Dark Mode
-
-<img src="https://github.com/deiivid/ComposeGlassMorphism/assets/tuimagen2.png" width="300"/>
-
-
+Light Mode
 
 
+
+
+
+📸 Showcase
+
+🎯 Gradient Example
+
+
+
+🎯 Blur Color Example
+
+
+
+🎯 Background Customization Example
+
+
+
+📱 Supported Versions
+
+ComposeGlass supports all modern Android versions:
+
+✅ Android 12+ (uses native RenderEffect API)
+
+✅ Android 11 and lower (custom native blur via JNI/C++)
+
+🛠 Contributing
+
+Contributions and improvements are welcome! Feel free to:
+
+Submit an issue to report bugs or request features
+
+Open a pull request to add enhancements
+
+📌 License
+
+ComposeGlass is released under the MIT License.
+
+MIT License
+
+Copyright (c) 2025 David Navarro
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+✨ Happy coding! 🚀
