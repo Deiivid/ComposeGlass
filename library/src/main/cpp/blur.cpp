@@ -9,7 +9,7 @@ using namespace composeGlassMorphism;
 // JNI method to apply a blur effect on a Bitmap using RenderScriptToolkit
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_composeglass_modifier_utils_GlassMorphismUtils_nativeGlassMorphismBitmap(
+Java_com_composeglassmorphism_modifier_utils_GlassMorphismUtils_nativeGlassMorphismBitmap(
         JNIEnv *env, jclass, jobject bitmap, jint radius
 ) {
     if (radius < 1) return;
