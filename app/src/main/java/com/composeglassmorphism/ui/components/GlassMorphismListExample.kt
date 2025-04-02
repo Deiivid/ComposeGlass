@@ -51,6 +51,7 @@ fun GlassMorphismListExample(items: List<String>) {
             .fillMaxSize()
             .glassMorphism {
                 radius = 5
+                blurColor=Color.Yellow
             },
 
         contentAlignment = Alignment.Center
