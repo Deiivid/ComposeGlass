@@ -74,7 +74,7 @@ Modifier.glassMorphism {
 ![Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/androidBlurColor.png)
 
 ## 🌈 Gradient Example
-![[Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/androidGradients.png)
+![Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/androidGradients.png)
 
 
 
