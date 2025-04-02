@@ -66,15 +66,15 @@ Modifier.glassMorphism {
 ```
 
 📸 ScreenShoots
-![Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/Android11-13blur.jpg)
+![Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/androidBlur.jpg)
 
 
 ## 🎨 Blur Color Background Example
 
-![Blur Color Background](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_blur_color_background.png)
+![Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/androidBlurColor.png)
 
 ## 🌈 Gradient Example
-![Gradient Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/Gradients%20Light%20Dark.jpg)
+![[Android <11 & >12](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/androidGradients.png)
 
 
 
