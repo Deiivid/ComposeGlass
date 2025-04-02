@@ -101,18 +101,19 @@ Light Mode
 
 
 
-📸 Showcase
+📸 ScreenShoots
 
-🎯 Gradient Example
+## 🌙 Dark Mode Example
 
+![Dark Mode Example](screenshoots/android11_darkmode.png)
 
+## 🎨 Blur Color Background Example
 
-🎯 Blur Color Example
+![Blur Color Background](screenshoots/android13_blur_color_background.png)
 
+## 🌈 Gradient Example
 
-
-🎯 Background Customization Example
-
+![Gradient Example](screenshoots/android13_dark_gradients.png)
 
 
 📱 Supported Versions
