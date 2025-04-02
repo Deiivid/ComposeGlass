@@ -25,9 +25,9 @@ foobar.pluralize('goose')
 foobar.singularize('phenomena')
 ```
 
-🌥️ ComposeGlass
+🌥️ ComposeGlassmorphism
 
-ComposeGlass is a Jetpack Compose library designed to easily add a beautiful, performant, and customizable Glassmorphism blur effect to your Android apps, supporting Android 12+ natively and providing a custom blur solution for older Android versions.
+ComposeGlassmorphism is a Jetpack Compose library designed to easily add a beautiful, performant, and customizable Glassmorphism blur effect to your Android apps, supporting Android 12+ natively and providing a custom blur solution for older Android versions.
 
 🚀 Installation
 
@@ -52,7 +52,7 @@ Box(
 
 🎨 Customization Options
 
-ComposeGlass allows you to finely tune the blur effect:
+ComposeGlassmorphism allows you to finely tune the blur effect:
 
 ✅ Blur Radius
 
@@ -91,34 +91,43 @@ Modifier.glassMorphism {
 }
 ```
 
-🌙 Dark Mode & 🌞 Light Mode Examples
-
-Dark Mode
-
-Light Mode
-
-
-
-
-
 📸 ScreenShoots
 
-## 🌙 Dark Mode Example
+## Theme Example
+Android 11📱
 
-![Dark Mode Example](screenshoots/android11_darkmode.png)
+🌙 Dark Mode Example
+![Light Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android11light.png)
+🌞 Light Mode Example
+![Dark Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android11_darkmode.png)
+
+Android 13📱
+
+🌙 Dark Mode Example
+![Dark Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_dark1.png)
+![Dark Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_dark2.png)
+
+🌞 Light Mode Example
+![Light Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_light.png)
+![Light Mode Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_light2.png)
 
 ## 🎨 Blur Color Background Example
 
-![Blur Color Background](screenshoots/android13_blur_color_background.png)
+![Blur Color Background](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_blur_color_background.png)
 
 ## 🌈 Gradient Example
 
-![Gradient Example](screenshoots/android13_dark_gradients.png)
+🌙 Dark Mode Example
+![Gradient Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_dark_gradients.png)
+
+🌞 Light Mode Example
+![Gradient Example](https://github.com/Deiivid/Glassmorphism-Compose/blob/master/screenshoots/android13_light_gradients.png)
+
 
 
 📱 Supported Versions
 
-ComposeGlass supports all modern Android versions:
+ComposeGlassmorphism supports all modern Android versions:
 
 ✅ Android 12+ (uses native RenderEffect API)
 
@@ -134,7 +143,7 @@ Open a pull request to add enhancements
 
 📌 License
 
-ComposeGlass is released under the MIT License.
+ComposeGlassmorphism is released under the MIT License.
 
 MIT License
 
