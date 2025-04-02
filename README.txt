@@ -1,30 +1,3 @@
-# Foobar
-
-Foobar is a Python library for dealing with word pluralization.
-
-## Installation
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
-```bash
-pip install foobar
-```🌙 Dark Mode Example  
-![Dark Mode Example](https://raw.githubusercontent.com/Deiivid/Glassmorphism-Compose/master/screenshoots/android13_dark1.png)
-
-## Usage
-
-```kotlin
-import foobar
-
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
-```
 
 🌥️ ComposeGlassmorphism
 
