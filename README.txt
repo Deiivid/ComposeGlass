@@ -1,6 +1,6 @@
-🌥️ ComposeGlassmorphism
+🌥️ ComposeGlass
 
-Glassmorphism is a Jetpack Compose library designed to easily add a beautiful, performant, and customizable Glassmorphism blur effect to your Android apps, supporting Android 12+ natively and providing a custom blur solution for older Android versions.
+ComposeGlass is a Jetpack Compose library designed to easily add a beautiful, performant, and customizable Glassmorphism blur effect to your Android apps, supporting Android 12+ natively and providing a custom blur solution for older Android versions.
 
 🚀 Installation
 
@@ -12,6 +12,7 @@ implementation("com.davidnavarro.composeglass:composeglass:1.0.0")
 
 Applying the glassmorphism blur effect is straightforward:
 
+```kotlin
 Box(
     modifier = Modifier.glassMorphism {
         radius = 10
@@ -20,6 +21,7 @@ Box(
 ) {
     Text("Beautiful Glass Blur!")
 }
+```
 
 🎨 Customization Options
 
@@ -29,25 +31,29 @@ ComposeGlass allows you to finely tune the blur effect:
 
 Controls how strong the blur effect is:
 
+```kotlin
 Modifier.glassMorphism {
     radius = 15 // Range: 1 - 25
 }
+```
 
 🎭 Theme Modes
 
 Adjust the blur effect for light or dark themes:
-
+```kotlin
 Modifier.glassMorphism {
     themeMode = GlassMorphismThemeMode.Dark // Auto | Light | Dark
 }
+```
 
 🌈 Gradient Colors
 
 Customize your blur effect with gradients:
-
+```kotlin
 Modifier.glassMorphism {
     gradientColors = listOf(Color.Blue, Color.Green)
 }
+```
 
 🎨 Blur Background Color
 
